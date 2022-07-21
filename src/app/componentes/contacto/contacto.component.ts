@@ -9,7 +9,15 @@ export class ContactoComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  options: any;
+
+  overlays?: any[];
+
+  ngOnInit() {
+    this.options = {
+      center: { lat: -2.128479, lng: -79.939132 },
+      zoom: 12
+    };
   }
 
 }

@@ -15,6 +15,7 @@ import { ContactoComponent } from './componentes/contacto/contacto.component';
 import { SidebarModule } from 'primeng/sidebar';
 import { CardModule } from 'primeng/card';
 import { CarouselModule } from 'primeng/carousel';
+import { GMapModule } from 'primeng/gmap';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { CarouselModule } from 'primeng/carousel';
     InputTextModule,
     SidebarModule,
     CardModule,
-    CarouselModule
+    CarouselModule,
+    GMapModule
   ],
   providers: [],
   bootstrap: [AppComponent]

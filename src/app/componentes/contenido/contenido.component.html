@@ -1,28 +1,28 @@
 <div class="row">
-    <div class="col-lg-12 col-md-6 col-sm-12">
+    <div class="col-lg-12 col-md-12 col-sm-12">
         <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
                 <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
                 <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
             </ol>
-            <div class="carousel-inner" style="width: 100%; height:550px;">
+            <div class="carousel-inner" style="width: 100%; height:650px;">
                 <div class="carousel-item active">
-                    <img src="assets/img/banner/3.jpg" class="" style=" align-content:stretch;  overflow:hidden; object-fit: fill; width: 100%; height: 550px;" alt="imagen 1" >
+                    <img src="assets/img/banner/3.jpg" class="" style=" align-content:stretch;  overflow:hidden; object-fit: fill; width: 100%; height: 650px;" alt="imagen 1" >
                 <div class="carousel-caption d-none d-md-block">
                     <h5>First slide label</h5>
                     <p>Some representative placeholder content for the first slide.</p>
                 </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/img/banner/2.jpg" class="" style=" align-content:stretch;  overflow:hidden; object-fit: fill; width: 100%; height: 550px;" alt="imagen 1" >
+                    <img src="assets/img/banner/2.jpg" class="" style=" align-content:stretch;  overflow:hidden; object-fit: fill; width: 100%; height: 650px;" alt="imagen 1" >
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Second slide label</h5>
                     <p>Some representative placeholder content for the second slide.</p>
                 </div>
                 </div>
                 <div class="carousel-item">
-                    <img src="assets/img/banner/4.jpg" class="" style=" align-content:stretch;  overflow:hidden; object-fit: fill; width: 100%; height: 550px;" alt="imagen 1" >
+                    <img src="assets/img/banner/4.jpg" class="" style=" align-content:stretch;  overflow:hidden; object-fit: fill; width: 100%; height: 650px;" alt="imagen 1" >
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Third slide label</h5>
                     <p>Some representative placeholder content for the third slide.</p>
@@ -42,11 +42,11 @@
 </div>
 <div class="container mt-4">
     <div class="row">
-        <div class="col-lg-12 col-md-6 col-sm-12">
+        <div class="col-lg-12 col-md-12 col-sm-12">
             <p-card>
                 <p-carousel [value]="productosMasVendidos" styleClass="custom-carousel" [numVisible]="3" [numScroll]="1" [circular]="false" [autoplayInterval]="3000">
                     <ng-template pTemplate="header">
-                        <h5>Productos mas vendidos</h5>
+                        <h1>Productos más vendidos</h1>
                     </ng-template>
                     <ng-template let-product pTemplate="item">
                         <div class="product-item">
@@ -71,4 +71,98 @@
             </p-card>
         </div>
     </div>
+</div>
+
+<div style="background-color: #fbc02d;">
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12" style="text-align: center; margin-top: 12em;">
+                <h1>Productos en oferta</h1>
+                <br>
+                <p>Encuentra tus productos favoritos con las ofertas que más te gustan</p>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12" style="display: flex; justify-content: center; align-items: center;">
+                <p-carousel [value]="productosMasVendidos" orientation="vertical" [style]="{'max-width':'400px', 'margin-top':'2em' }" verticalViewPortHeight="452px" [numVisible]="1" [numScroll]="1">
+                    <ng-template let-product pTemplate="item">
+                        <div class="product-item">
+                            <div class="product-item-content" style="background-color: #ffff;">
+                                <div class="mb-3">
+                                    <img src="assets/img/Productos/{{product.image}}" [alt]="product.name" class="product-image" style="width: 130px; height: 130px;" />
+                                </div>
+                                <div>
+                                    <h4 class="mb-1">{{product.name}}</h4>
+                                    <h6 class="mt-0 mb-3">${{product.price}}</h6>
+                                    <span [class]="'product-badge status-'+product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+                                    <div class="car-buttons mt-5">
+                                        <p-button type="button" styleClass="p-button p-button-rounded mr-2" icon="pi pi-search"></p-button>
+                                        <p-button type="button" styleClass="p-button-success p-button-rounded mr-2" icon="pi pi-star-fill"></p-button>
+                                        <p-button type="button" styleClass="p-button-help p-button-rounded" icon="pi pi-cog"></p-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-carousel>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="d-flex flex-column h-75">
+
+    <!-- FOR DEMO PURPOSE -->
+    <section class="py-5 flex-grow-1">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1>¡Aquí me quedo!</h1>
+                    <p class="fst-italic text-muted">Tu tienda online disponible las 24 horas del día, los 7 días de la semana y los 365 día del año. No te pierdas ningua promoción y compra siempre al mejor precio del mercado.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="w-100 py-4 flex-shrink-0">
+        <div class="container py-4">
+            <div class="row gy-4 gx-5">
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="h1 text-white">Minimarket "Aquí me quedo"</h5>
+                    <p class="small text-muted">"Aquí me quedo" es un negocio de compra venta de productos, estamos en el noroeste de la ciudad de guayaquil.</p>
+                    <p class="small text-muted mb-0">&copy; Copyrights. Todos los derechos reservados. <a class="text-primary" href="#">aquimequedo.com.ec</a></p>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="text-white mb-3">Enlaces rapidos</h5>
+                    <ul class="list-unstyled text-muted">
+                        <li><a href="#">Inicio</a></li>
+                        <li><a href="#">Nosotros</a></li>
+                        <li><a href="#">Contactos</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="text-white mb-3">Enlaces rapidos</h5>
+                    <ul class="list-unstyled text-muted">
+                        <li><a href="#">Inicia sesión</a></li>
+                        <li><a href="#">Registrate</a></li>
+                        <li><a href="#">Tienda</a></li>
+                        <li><a href="#">Google</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="text-white mb-3">Boletín informativo</h5>
+                    <p class="small text-muted">Si deseas recibir notificaciones sobre nuestros productos, dejamos tu correo electrónico y nosotros nos encarmos del resto.</p>
+                    <form action="#">
+                        <div class="input-group mb-3">
+                            <div class="p-inputgroup">
+                                <input type="text" pInputText placeholder="Correo">   
+                                <button type="button" pButton pRipple icon="pi pi-check-circle" styleClass="p-button-warn" ></button>      
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>

@@ -9,6 +9,8 @@ export class InicioComponent implements OnInit {
 
   displayLogin: boolean = false;
   displayRegister: boolean = false;
+  displayStore: boolean = false;
+
 
   constructor() { }
 
