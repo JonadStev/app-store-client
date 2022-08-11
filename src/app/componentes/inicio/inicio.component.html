@@ -41,15 +41,25 @@
     </ul>
     <div class="p-fluid grid" >
       <form class="form-inline">
-        <div class="field col-4 md:col-4">
+        <ng-template [ngIf] = "isLogged">
+          <div class="field col-7 md:col-7 mt-3">
+            <p style="color: #ffff;">{{usuarioLogeado}}</p>
+          </div>
+          <div class="field col-2 md:col-2">
+            <button pButton pRipple type="button" icon="pi pi-power-off" class="p-button-rounded p-button-danger" (click)="logOut()"></button>
+          </div>
+        </ng-template>
+        <div class="field col-3 md:col-3">
           <button pButton pRipple type="button" icon="pi pi-shopping-cart" class="p-button-rounded p-button-warning" (click)="displayStore = true"></button>
         </div>
-        <div class="field col-4 md:col-4">
-          <button pButton pRipple type="button" icon="pi pi-key" class="p-button-rounded p-button-warning" (click)="displayLogin = true"></button>
-        </div>
-        <div class="field col-4 md:col-4">
-          <button pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-warning" (click)="displayRegister = true"></button>
-        </div>        
+        <ng-template [ngIf] = "!isLogged">
+          <div class="field col-3 md:col-3">
+            <button pButton pRipple type="button" icon="pi pi-key" class="p-button-rounded p-button-warning" (click)="displayLogin = true"></button>
+          </div>
+          <div class="field col-3 md:col-3">
+            <button pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-warning" (click)="displayRegister = true"></button>
+          </div>
+        </ng-template>        
       </form>
     </div>
     
@@ -62,21 +72,22 @@
       </div>
       <div class="field col-12 md:col-12 mt-4">
         <span class="p-float-label">
-            <input type="email" id="correotext" pInputText> 
+            <input type="email" id="correotext" [(ngModel)] = "usernameText" pInputText> 
             <label for="correotext">correo@ejemplo.com</label>
         </span>
       </div>
       <div class="field col-12 md:col-12 mt-4">
         <span class="p-float-label">
-            <input type="password" id="passwordtext" pInputText> 
+            <input type="password" id="passwordtext" [(ngModel)] = "passwordText" pInputText> 
             <label for="passwordtext">Contraseña</label>
         </span>
       </div>
       <div class="field col-12 md:col-12 mt-4">
-        <button class="mr-sm-2 p-button-warning" pButton type="button" icon="pi pi-key" iconPos="left" label="Acceder"></button>
+        <button class="mr-sm-2 p-button-warning" pButton type="button" icon="pi pi-key" iconPos="left" label="Acceder" (click)="onLogin()"></button>
       </div>
     </div>
 </p-sidebar>
+
 <p-sidebar [(visible)]="displayRegister" position="right">
   <div class="p-fluid grid">
     <div class="field col-12 md:col-12">
