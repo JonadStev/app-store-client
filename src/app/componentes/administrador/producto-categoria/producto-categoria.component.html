@@ -1,0 +1,156 @@
+<div class="container" style="margin-top: 120px;">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <p-card>
+                <ng-template pTemplate="header">
+                    <h3 class="ml-2">CATEGORIA DE PRODUCTOS</h3>
+                    <hr>
+                </ng-template>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <h4>Guardar categoria</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="p-fluid grid">
+                            <div class="field col-12 md:col-12 mt-4">
+                              <span class="p-float-label">
+                                  <input type="text" id="txtCategoria" pInputText [(ngModel)] = "txtNombreCategoria"> 
+                                  <label for="txtCategoria">Nombre de la categoria</label>
+                              </span>
+                            </div>
+                            <div class="field col-12 md:col-12 mt-4">
+                              <button class="mr-sm-2 p-button-warning" pButton type="button" iconPos="left" label="Guardar categoria" (click)="guardarCategoria()"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <h4>Lista de categorias</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <p-table [value]="categorias" [paginator]="true" [rows]="4" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[4,8,16]">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Nombre</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-categoria>
+                                    <tr>
+                                        <td>{{categoria.id}}</td>
+                                        <td>{{categoria.nombreCategoria}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+
+            </p-card>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <p-card>
+                <ng-template pTemplate="header">
+                    <h3 class="ml-2">PRODUCTOS</h3>
+                    <hr>
+                </ng-template>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <h4>Guardar producto</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="grid p-fluid ">
+                            <form action="/" method="POST" enctype="multipart/form-data" (ngSubmit) = 'guardarProducto()' #forma="ngForm">
+                                <div class="field col-12 md:col-12 mt-4">
+                                    <span class="p-float-label">
+                                        <input type="text" id="txtNombre" pInputText [formControl] = "nombreProducto"> 
+                                        <label for="txtNombre">Nombre del producto</label>
+                                    </span>
+                                </div>
+                                <div class="field col-12 md:col-12 mt-2">
+                                    <span class="p-float-label">
+                                        <input type="number" id="txtPrecio" pInputText [formControl] = "precioProducto"> 
+                                        <label for="txtPrecio">Precio del producto</label>
+                                    </span>
+                                </div>
+                                <div class="field col-12 md:col-12 mt-2">
+                                    <span class="p-float-label">
+                                        <input type="number" id="txtStock" pInputText [formControl] = "stockProducto"> 
+                                        <label for="txtStock">Stock del producto</label>
+                                    </span>
+                                </div>
+                                <div class="field col-12 md:col-12 mt-2">
+                                    <span class="p-float-label">
+                                        <input class="file-input" type="file" id="txtImagen" (change)="onFileSelected($event)" #myInputFile> 
+                                    </span>
+                                </div>
+                                <div class="field col-12 md:col-12 mt-2">
+                                    <p-dropdown [options]="categorias" [formControl]="selectedCategoria" optionLabel="nombreCategoria" optionValue="id" placeholder="Seleccione la categoria"></p-dropdown>
+                                </div>
+                                <div class="field col-12 md:col-12 mt-4">
+                                    <button class="mr-sm-2 p-button-warning" pButton type="submit" iconPos="left" label="Guardar producto"></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <h4>Lista de productos</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <p-table [value]="productos" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[5,10,15]">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Nombre</th>
+                                        <th>Precio</th>
+                                        <th>Stock</th>
+                                        <th>srcImage</th>
+                                        <th>estado</th>
+                                        <th>Categoria</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-producto>
+                                    <tr>
+                                        <td>{{producto.id}}</td>
+                                        <td>{{producto.nombre}}</td>
+                                        <td>{{producto.precio}}</td>
+                                        <td>{{producto.stock}}</td>
+                                        <td>{{producto.srcImage}}</td>
+                                        <td>{{producto.estado}}</td>
+                                        <td>{{producto.categoria.nombreCategoria}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+
+            </p-card>
+        </div>
+    </div>
+
+
+</div>

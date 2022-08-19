@@ -1,7 +1,8 @@
-export class NuevoUsuario {
+export interface NuevoUsuario {
     nombre?: string;
     nombreUsuario?: string;
     email?: string;
     password?: string;
-    authorities?: string[];
+    roles?: string[];
+    direccion?: string
 }

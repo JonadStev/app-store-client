@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginUsuario } from 'src/app/modelos/login-usuario';
+import { NuevoUsuario } from 'src/app/modelos/nuevo-usuario';
 import { AuthService } from 'src/app/services/auth.service';
 import { TokenService } from 'src/app/services/token.service';
 
@@ -22,6 +23,12 @@ export class InicioComponent implements OnInit {
 
   isLogged: boolean = false;
   usuarioLogeado?: string;
+  isAdmin: boolean = false;
+  isDelivery: boolean = false;
+
+  txtNombre: string = '';
+  txtApellido: string = '';
+  nuevoUsuario: NuevoUsuario = {};
 
   constructor(
     private tokenService: TokenService,
@@ -35,6 +42,8 @@ export class InicioComponent implements OnInit {
       if (this.tokenService.getUserName() != "user") {
         this.usuarioLogeado = this.tokenService.getUserName() as string;
       }
+      this.isAdmin = this.tokenService.isAdmin();
+      this.isDelivery = this.tokenService.isDelivery();
     }
   }
 
@@ -43,7 +52,6 @@ export class InicioComponent implements OnInit {
       alert("Debe ingresar las credenciales");
     } else {
       this.loginUsuario = new LoginUsuario(this.usernameText as string, this.passwordText as string);
-      console.log(this.loginUsuario.nombreUsuario + " - " + this.loginUsuario.password);
 
       this.authService.login(this.loginUsuario).subscribe(
         data => {
@@ -52,15 +60,37 @@ export class InicioComponent implements OnInit {
           this.isLogged = true;
           this.displayLogin = false;
           this.usuarioLogeado = this.tokenService.getUserName() as string;
+          window.location.replace('/');
         },
         err => {
           alert("Usuario y/o contraseña incorrecta");
         }
       );
-
-
     }
   }
+
+  registrar() {
+    this.nuevoUsuario.nombre = this.txtNombre + ' ' + this.txtApellido;
+    this.nuevoUsuario.roles = ['user'];
+    this.authService.nuevo(this.nuevoUsuario).subscribe(
+      data => {
+        console.log('ENTRA POR DATA ' + data)
+      },
+      err => {
+        //console.log(err)
+        if (err.status === 400)
+          alert(err.error);
+        else {
+          alert('Usuario registrado con éxito, por favor inicie sesión con sus credenciales.');
+          this.nuevoUsuario = {};
+          this.txtNombre = '';
+          this.txtApellido = '';
+        }
+
+      }
+    );
+  }
+
 
   logOut() {
     this.tokenService.logOut();
@@ -68,3 +98,4 @@ export class InicioComponent implements OnInit {
 
 
 }
+

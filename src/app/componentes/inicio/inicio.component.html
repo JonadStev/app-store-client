@@ -6,34 +6,44 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false" style="color: #ffff;">
-            Productos
-          </a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
-        </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" routerLink="tienda" style="color: #ffff;">Tienda</a>
+      </li>
+      <ng-template [ngIf] = "isLogged">
+
+        <ng-template [ngIf] = "isAdmin">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false" style="color: #ffff;">
+              Administrador
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#" routerLink="admin/productos-categorias">Productos y categorias</a>
+              <a class="dropdown-item" href="#">Proveedores y Repartidores</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Promociones</a>
+              <a class="dropdown-item" href="#">Reportes</a>
+            </div>
+          </li>
+        </ng-template>
+
+        <ng-template [ngIf] = "isAdmin || isDelivery">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false" style="color: #ffff;">
+              Repartidor
+            </a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Ordenes de entrega</a>
+            </div>
+          </li>
+        </ng-template>
+      </ng-template>
+      
       <li class="nav-item">
         <a class="nav-link" href="#" routerLink="nosotros" style="color: #ffff;">Conócenos</a>
       </li>
       
       <li class="nav-item">
           <a class="nav-link" href="#" routerLink="contacto" style="color: #ffff;">Contáctanos</a>
-      </li>
-      <li class="nav-item">
-        <div class="p-fluid grid">
-          <div class="field col-12 md:col-6">
-            <span class="p-input-icon-left">
-                <i class="pi pi-search"></i>
-                <input size="50" type="text" pInputText placeholder="Buscar producto">         
-            </span>
-          </div>
-        </div>
-          
       </li>
       <li class="nav-item">
           
@@ -95,36 +105,42 @@
     </div>
     <div class="field col-12 md:col-12 mt-4">
       <span class="p-float-label">
-          <input type="text" id="nombrestext" pInputText> 
-          <label for="nombretext">Nombres</label>
+          <input type="text" id="nombrestext" pInputText [(ngModel)] = "txtNombre"> 
+          <label for="nombretext">Nombre</label>
       </span>
     </div>
     <div class="field col-12 md:col-12 mt-4">
       <span class="p-float-label">
-          <input type="text" id="apellidostext" pInputText> 
-          <label for="apellidostext">Apellidos</label>
+          <input type="text" id="apellidostext" pInputText [(ngModel)] = "txtApellido">
+          <label for="apellidostext">Apellido</label>
       </span>
     </div>
     <div class="field col-12 md:col-12 mt-4">
       <span class="p-float-label">
-          <input type="text" id="direcciontext" pInputText> 
+          <input type="text" id="direcciontext" pInputText [(ngModel)] = "nuevoUsuario.direccion"> 
           <label for="direcciontext">Dirección</label>
       </span>
     </div>
     <div class="field col-12 md:col-12 mt-4">
       <span class="p-float-label">
-          <input type="email" id="correotext" pInputText> 
+          <input type="email" id="correotext" pInputText [(ngModel)] = "nuevoUsuario.email"> 
           <label for="correotext">correo@ejemplo.com</label>
       </span>
     </div>
     <div class="field col-12 md:col-12 mt-4">
       <span class="p-float-label">
-          <input type="password" id="passwordtext" pInputText> 
+          <input type="email" id="usernameTxt" pInputText [(ngModel)] = "nuevoUsuario.nombreUsuario"> 
+          <label for="usernameTxt">Nombre de usuario</label>
+      </span>
+    </div>
+    <div class="field col-12 md:col-12 mt-4">
+      <span class="p-float-label">
+          <input type="password" id="passwordtext" pInputText [(ngModel)] = "nuevoUsuario.password">
           <label for="passwordtext">Contraseña</label>
       </span>
     </div>
     <div class="field col-12 md:col-12 mt-4">
-      <button class="mr-sm-2 p-button-warning" pButton type="button" icon="pi pi-user" iconPos="left" label="Aceptar"></button>
+      <button class="mr-sm-2 p-button-warning" pButton type="button" icon="pi pi-user" iconPos="left" label="Registrar" (click)="registrar()"></button>
     </div>
   </div>
 </p-sidebar>

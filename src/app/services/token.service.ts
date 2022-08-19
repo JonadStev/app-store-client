@@ -54,6 +54,21 @@ export class TokenService {
     }
   }
 
+  public isDelivery(): boolean {
+    if (!this.isLogger)
+      return false;
+    else {
+      const token = this.getToken();
+      const payload = token?.split('.')[1] as string;
+      const payloadDecoded = atob(payload);
+      const values = JSON.parse(payloadDecoded);
+      const roles = values.roles;
+      if (roles.indexOf('ROLE_DELIVERY') < 0) // No es admin
+        return false;
+      return true; // Es admin
+    }
+  }
+
   public logOut(): void {
     window.localStorage.clear();
     window.location.replace('/')
