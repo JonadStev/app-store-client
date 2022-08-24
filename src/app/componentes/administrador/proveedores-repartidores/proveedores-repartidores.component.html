@@ -1,1 +1,165 @@
-<p>proveedores-repartidores works!</p>
+<div class="container" style="margin-top: 120px;">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <p-card>
+                <ng-template pTemplate="header">
+                    <h3 class="ml-2">ADMINISTRACIÓN DE PROVEEDORES</h3>
+                    <hr>
+                </ng-template>
+                <div class="row">
+                    <div class="col-6">
+                        <h4>Información del proveedor</h4>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <form>
+                            <div class="form-group row">
+                                <label for="txtNombre" class="col-sm-4 col-form-label">Nombre del proveedor:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="txtNombre" pInputText [(ngModel)] = "proveedorDTO.nombre" [ngModelOptions]="{standalone: true}"> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="txtCorreo" class="col-sm-4 col-form-label">Correo del proveedor:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="txtCorreo" pInputText [(ngModel)] = "proveedorDTO.correo" [ngModelOptions]="{standalone: true}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="txtTelefono" class="col-sm-4 col-form-label">Teléfono del proveedor:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="txtTelefono" pInputText [(ngModel)] = "proveedorDTO.telefono" [ngModelOptions]="{standalone: true}">
+                                </div>
+                            </div>                            
+                            <div class="form-group row">
+                                <div class="col-sm-8">
+                                    <button class="mr-sm-2 p-button-warning" pButton type="button" iconPos="left" label="Guardar proveedor" (click)="guardarProveedor()"></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h4>Lista de proveedores</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <p-table [value]="proveedores" [paginator]="true" [rows]="4" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} proveedores" [rowsPerPageOptions]="[4,8,16]">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Nombre</th>
+                                        <th>Correo</th>
+                                        <th>Teléfono</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-proveedor>
+                                    <tr>
+                                        <td>{{proveedor.id}}</td>
+                                        <td>{{proveedor.nombre}}</td>
+                                        <td>{{proveedor.correo}}</td>
+                                        <td>{{proveedor.telefono}}</td>
+                                        <td>{{proveedor.estado}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+
+            </p-card>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <p-card>
+                <ng-template pTemplate="header">
+                    <h3 class="ml-2">ADMINISTRACIÓN DE REPARTIDORES</h3>
+                    <hr>
+                </ng-template>
+                <div class="row">
+                    <div class="col-6">
+                        <h4>Información del repartidor</h4>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <form>
+                            <div class="form-group row">
+                                <label for="txtNombre" class="col-sm-4 col-form-label">Nombre del repartidor:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="txtNombre" pInputText [(ngModel)] = "repartidorDTO.nombre" [ngModelOptions]="{standalone: true}"> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="txtNombreUsuario" class="col-sm-4 col-form-label">Nombre de usuario repartidor:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="txtNombreUsuario" pInputText [(ngModel)] = "repartidorDTO.nombreUsuario" [ngModelOptions]="{standalone: true}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="txtEmail" class="col-sm-4 col-form-label">Email del repartidor:</label>
+                                <div class="col-sm-8">
+                                    <input type="email" id="txtEmail" pInputText [(ngModel)] = "repartidorDTO.email" [ngModelOptions]="{standalone: true}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="txtDireccion" class="col-sm-4 col-form-label">Dirección del repartidor:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="txtDireccion" pInputText [(ngModel)] = "repartidorDTO.direccion" [ngModelOptions]="{standalone: true}">
+                                </div>
+                            </div>                            
+                            <div class="form-group row">
+                                <div class="col-sm-8">
+                                    <button class="mr-sm-2 p-button-warning" pButton type="button" iconPos="left" label="Guardar repartidor" (click)="guardarRepartidor()"></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h4>Lista de repartidores</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <p-table [value]="proveedores" [paginator]="true" [rows]="4" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} proveedores" [rowsPerPageOptions]="[4,8,16]">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Nombre</th>
+                                        <th>Correo</th>
+                                        <th>Teléfono</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-proveedor>
+                                    <tr>
+                                        <td>{{proveedor.id}}</td>
+                                        <td>{{proveedor.nombre}}</td>
+                                        <td>{{proveedor.correo}}</td>
+                                        <td>{{proveedor.telefono}}</td>
+                                        <td>{{proveedor.estado}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+
+            </p-card>
+        </div>
+    </div>
+</div>

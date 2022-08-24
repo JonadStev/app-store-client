@@ -29,12 +29,18 @@ export class ProductoCategoriaComponent implements OnInit {
   @ViewChild('myInputFile')
   myInputFile: ElementRef;
 
+
+  retrievedImage: any;
+  base64Data: any;
+  retrieveResonse: any;
+
   constructor(public productoCategoriaService: ProductoCategoriaService) { }
 
   ngOnInit(): void {
 
     this.llenarTablaCategorias();
     this.llenarTablaProductos();
+    this.getProductoImage();
 
     /*this.productoCategoriaService.getCategorias().subscribe(
       data => {
@@ -140,6 +146,19 @@ export class ProductoCategoriaComponent implements OnInit {
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     this.formData.append("fichero", file);
+  }
+
+  getProductoImage() {
+    //Make a call to Sprinf Boot to get the Image Bytes.
+    this.productoCategoriaService.getProducto('11')
+      .subscribe(
+        res => {
+          this.retrieveResonse = res;
+          this.base64Data = this.retrieveResonse.picByte;
+          this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
+          console.log(this.retrieveResonse);
+        }
+      );
   }
 
 }

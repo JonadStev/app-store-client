@@ -34,11 +34,15 @@ export class ProductoCategoriaService {
   }
 
   public getProductos(): Observable<ProductoDto[]> {
-    return this.httpClient.get<ProductoDto[]>(this.adminUrl + 'getProductos');
+    return this.httpClient.get<ProductoDto[]>(this.adminUrl + 'productos');
   }
 
   public guardarProducto(formData: FormData): Observable<ProductoDto> {
     return this.httpClient.post<ProductoDto>(this.adminUrl + 'saveProducto', formData);
+  }
+
+  public getProducto(id: string): Observable<ProductoDto> {
+    return this.httpClient.get<ProductoDto>(this.adminUrl + 'producto/' + id);
   }
 
 

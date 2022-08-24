@@ -4,6 +4,7 @@ export interface ProductoDto {
     precio?: DoubleRange,
     stock?: number,
     srcImage?: string,
+    picByte?: string,
     estado?: string,
     categoria?: Categoria
 }
