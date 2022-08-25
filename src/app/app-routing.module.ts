@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: '', component: ContenidoComponent },
   { path: 'nosotros', component: NosotrosComponent },
   { path: 'contacto', component: ContactoComponent },
-  { path: 'tienda', component: TiendaComponent, canActivate: [ProdGuardService], data: { expectedRol: ['user'] } },
+  { path: 'tienda', component: TiendaComponent },
   { path: 'admin/productos-categorias', component: ProductoCategoriaComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin'] } },
   { path: 'admin/proveedores-repartidores', component: ProveedoresRepartidoresComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin'] } },
 ];

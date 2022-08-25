@@ -17,7 +17,7 @@
                         <div class="p-fluid grid">
                             <div class="field col-12 md:col-12 mt-4">
                               <span class="p-float-label">
-                                  <input type="text" id="txtCategoria" pInputText [(ngModel)] = "txtNombreCategoria"> 
+                                  <input type="text" id="txtCategoria" pInputText [(ngModel)] = "categoriaDTO.nombreCategoria"> 
                                   <label for="txtCategoria">Nombre de la categoria</label>
                               </span>
                             </div>
@@ -36,7 +36,9 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <p-table [value]="categorias" [paginator]="true" [rows]="4" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                            <p-table [value]="categorias" selectionMode="single" dataKey="id"
+                                (onRowSelect)="onRowSelect($event)"
+                                [paginator]="true" [rows]="4" [showCurrentPageReport]="true" responsiveLayout="scroll"
                                 currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} categorias" [rowsPerPageOptions]="[4,8,16]">
                                 <ng-template pTemplate="header">
                                     <tr>
@@ -45,7 +47,7 @@
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-categoria>
-                                    <tr>
+                                    <tr [pSelectableRow]="categoria">
                                         <td>{{categoria.id}}</td>
                                         <td>{{categoria.nombreCategoria}}</td>
                                     </tr>
@@ -102,9 +104,17 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="txtStock" class="col-sm-6 col-form-label">Vista previa producto:</label>
+                                    <div class="col-sm-6">
+                                        <div *ngIf=retrievedImage>
+                                            <img class="img-thumbnail" [src]="retrievedImage">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="txtStock" class="col-sm-6 col-form-label">Categoria del producto:</label>
                                     <div class="col-sm-6">
-                                        <p-dropdown [options]="categorias" [formControl]="selectedCategoria" optionLabel="nombreCategoria" optionValue="id" placeholder="Seleccione la categoria"></p-dropdown>
+                                        <p-dropdown [options]="categorias" [(ngModel)]="selectedCategoria" optionLabel="nombreCategoria" optionValue="id" placeholder="Seleccione la categoria" [ngModelOptions]="{standalone: true}"></p-dropdown>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -126,7 +136,9 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <p-table [value]="productos" [paginator]="true" [rows]="5" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                            <p-table [value]="productos" selectionMode="single" dataKey="id"
+                                (onRowSelect)="onRowSelectProduct($event)" (onRowUnselect)="onRowUnselect($event)"
+                                [paginator]="true" [rows]="5" [showCurrentPageReport]="true" responsiveLayout="scroll"
                                 currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos" [rowsPerPageOptions]="[5,10,15]">
                                 <ng-template pTemplate="header">
                                     <tr>
@@ -140,7 +152,7 @@
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-producto>
-                                    <tr>
+                                    <tr [pSelectableRow]="producto">
                                         <td>{{producto.id}}</td>
                                         <td>{{producto.nombre}}</td>
                                         <td>{{producto.precio}}</td>

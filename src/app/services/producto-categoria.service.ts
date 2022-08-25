@@ -22,6 +22,8 @@ export interface CategoriaData {
 export class ProductoCategoriaService {
 
   adminUrl = environment.adminUrl;
+  authURL = environment.authUrl;
+  tiendaUrl = environment.tiendaUrl;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -45,5 +47,14 @@ export class ProductoCategoriaService {
     return this.httpClient.get<ProductoDto>(this.adminUrl + 'producto/' + id);
   }
 
+
+  // TIENDA
+  public getProductosTienda(): Observable<ProductoDto[]> {
+    return this.httpClient.get<ProductoDto[]>(this.tiendaUrl + 'productos');
+  }
+
+  public getCategoriasTienda(): Observable<CategoriaData[]> {
+    return this.httpClient.get<CategoriaData[]>(this.tiendaUrl + 'getCategorias');
+  }
 
 }

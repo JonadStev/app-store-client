@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   adminUrl: 'http://localhost:8080/admin/',
   authUrl: 'http://localhost:8080/auth/',
+  tiendaUrl: 'http://localhost:8080/tienda/',
 };
 
 /*

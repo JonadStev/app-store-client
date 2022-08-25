@@ -24,13 +24,19 @@
                             <div class="form-group row">
                                 <label for="txtCorreo" class="col-sm-4 col-form-label">Correo del proveedor:</label>
                                 <div class="col-sm-8">
-                                    <input type="text" id="txtCorreo" pInputText [(ngModel)] = "proveedorDTO.correo" [ngModelOptions]="{standalone: true}">
+                                    <input style="width: 60%" type="text" id="txtCorreo" pInputText [(ngModel)] = "proveedorDTO.correo" [ngModelOptions]="{standalone: true}">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="txtTelefono" class="col-sm-4 col-form-label">Teléfono del proveedor:</label>
                                 <div class="col-sm-8">
                                     <input type="text" id="txtTelefono" pInputText [(ngModel)] = "proveedorDTO.telefono" [ngModelOptions]="{standalone: true}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="txtTelefono" class="col-sm-4 col-form-label">Estado del proveedor:</label>
+                                <div class="col-sm-8">
+                                    <p-dropdown [options]="estados" [(ngModel)]="selectedEstado" optionLabel="nombreEstado" optionValue="nombreEstado" placeholder="Seleccione el estado" [ngModelOptions]="{standalone: true}"></p-dropdown>
                                 </div>
                             </div>                            
                             <div class="form-group row">
@@ -49,7 +55,9 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <p-table [value]="proveedores" [paginator]="true" [rows]="4" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                            <p-table [value]="proveedores" selectionMode="single" [(selection)]="selectedProveedor" dataKey="id" 
+                                (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+                                [paginator]="true" [rows]="4" [showCurrentPageReport]="true" responsiveLayout="scroll"
                                 currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} proveedores" [rowsPerPageOptions]="[4,8,16]">
                                 <ng-template pTemplate="header">
                                     <tr>
@@ -61,7 +69,7 @@
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-proveedor>
-                                    <tr>
+                                    <tr [pSelectableRow]="proveedor">
                                         <td>{{proveedor.id}}</td>
                                         <td>{{proveedor.nombre}}</td>
                                         <td>{{proveedor.correo}}</td>
@@ -134,24 +142,24 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <p-table [value]="proveedores" [paginator]="true" [rows]="4" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                            <p-table [value]="repartidores" [paginator]="true" [rows]="4" [showCurrentPageReport]="true" responsiveLayout="scroll"
                                 currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} proveedores" [rowsPerPageOptions]="[4,8,16]">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th>Id</th>
                                         <th>Nombre</th>
                                         <th>Correo</th>
-                                        <th>Teléfono</th>
-                                        <th>Estado</th>
+                                        <th>Usuario</th>
+                                        <th>Dirección</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-proveedor>
                                     <tr>
                                         <td>{{proveedor.id}}</td>
                                         <td>{{proveedor.nombre}}</td>
-                                        <td>{{proveedor.correo}}</td>
-                                        <td>{{proveedor.telefono}}</td>
-                                        <td>{{proveedor.estado}}</td>
+                                        <td>{{proveedor.email}}</td>
+                                        <td>{{proveedor.nombreUsuario}}</td>
+                                        <td>{{proveedor.direccion}}</td>
                                     </tr>
                                 </ng-template>
                             </p-table>

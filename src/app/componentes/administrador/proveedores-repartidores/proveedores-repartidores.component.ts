@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProveedorDto } from 'src/app/modelos/ProveedorDTO';
 import { RepartidorDto } from 'src/app/modelos/Repartidor';
 import { AuthService } from 'src/app/services/auth.service';
+import { DeliveryService } from 'src/app/services/delivery.service';
 import { ProveedorService } from 'src/app/services/proveedor.service';
 
 @Component({
@@ -14,15 +15,27 @@ export class ProveedoresRepartidoresComponent implements OnInit {
   proveedorDTO: ProveedorDto = {};
   repartidorDTO: RepartidorDto = {};
   proveedores: ProveedorDto[];
+  repartidores: RepartidorDto[];
+  estados: any[] = [{ id: 1, nombreEstado: 'ACTIVO' }, { id: 2, nombreEstado: 'INACTIVO' }];
+  selectedEstado?: string;
 
-  constructor(public proveedorService: ProveedorService, private authService: AuthService) { }
+  selectedProveedor: ProveedorDto;
+
+  constructor(private proveedorService: ProveedorService,
+    private authService: AuthService,
+    private deliveryService: DeliveryService) { }
 
   ngOnInit(): void {
     this.getProveedores();
+    this.getRepartidores();
   }
 
   guardarProveedor() {
-    this.proveedorDTO.estado = 'ACTIVO';
+    if (this.selectedEstado === '' || this.selectedEstado === undefined)
+      this.proveedorDTO.estado = 'ACTIVO';
+    else
+      this.proveedorDTO.estado = this.selectedEstado
+
     if (this.proveedorDTO.nombre === '' || this.proveedorDTO.correo === '' || this.proveedorDTO.telefono === '' ||
       this.proveedorDTO.nombre === undefined || this.proveedorDTO.correo === undefined || this.proveedorDTO.telefono === undefined) {
       alert("Debe ingresar los datos del proveedor");
@@ -31,6 +44,7 @@ export class ProveedoresRepartidoresComponent implements OnInit {
     this.proveedorService.guardarProveedor(this.proveedorDTO).subscribe(data => {
       alert("Proveedor guardado con éxito");
       this.proveedorDTO = {};
+      this.selectedEstado = '';
       this.getProveedores();
     })
   }
@@ -57,6 +71,21 @@ export class ProveedoresRepartidoresComponent implements OnInit {
         }
       }
     );
+  }
+
+  getRepartidores() {
+    this.deliveryService.getRepartidores().subscribe(data => {
+      this.repartidores = data;
+    })
+  }
+
+  onRowSelect(event: any) {
+    this.proveedorDTO = event.data
+    this.selectedEstado = this.proveedorDTO.estado;
+  }
+
+  onRowUnselect(event: any) {
+    console.log(event.data);
   }
 
 

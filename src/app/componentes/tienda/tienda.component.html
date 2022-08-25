@@ -1,7 +1,48 @@
 <div class="container" style="margin-top: 120px;">
     <div class="row">
-        <div class="col-12">
-            <p>Tienda works!</p>
+        <div class="col-lg-12 col-md-6 col-sm-12">
+            <p-card>
+                <ng-template pTemplate="header">
+                    <h1 style="text-align: center; padding-top: 20px;">Tienda de productos</h1>
+                </ng-template>
+                <hr>
+                <div class="row mt-4">
+                    <label for="txtNombre" class="col-sm-3 col-form-label">Buscador de productos:</label>
+                    <div class="col-sm-7">
+                        <input style="width: 100%" type="text" id="txtNombre" pInputText>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="mr-sm-2 p-button-warning" pButton type="button" iconPos="left" label="Buscar"></button>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <label for="txtStock" class="col-sm-3 col-form-label">Categoria de productos:</label>
+                    <div class="col-sm-4">
+                        <p-dropdown [options]="categorias" [(ngModel)]="selectedCategoria" optionLabel="nombreCategoria" optionValue="id" placeholder="Seleccione la categoria" [ngModelOptions]="{standalone: true}"></p-dropdown>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-12" *ngFor="let producto for productos">
+            <div class="card">
+                <div class="product-item">
+                    <div class="product-item-content">
+                        <div class="mb-3" style="min-height: 210px;">
+                            <img src="assets/img/Productos/p1.jpg" class="product-image" />
+                        </div>
+                        <div>
+                            <h4 class="mb-1">{{producto.nombre}}</h4>
+                            <h6 class="mt-0 mb-3">${{producto.precio}}</h6>
+                            <div class="car-buttons mt-5">
+                                <p-button type="button" styleClass="p-button p-button-rounded mr-2" icon="pi pi-search"></p-button>
+                                <p-button type="button" styleClass="p-button-success p-button-rounded mr-2" icon="pi pi-star-fill"></p-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
