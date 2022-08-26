@@ -3,6 +3,9 @@ import { FormControl } from '@angular/forms';
 import { Categoria, ProductoDto } from 'src/app/modelos/productos';
 import { CategoriaData, CategoriaDto, ProductoCategoriaService } from 'src/app/services/producto-categoria.service';
 import { ViewChild } from '@angular/core';
+import { BannerDto } from 'src/app/modelos/banner';
+import { ThisReceiver } from '@angular/compiler';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-producto-categoria',
@@ -17,10 +20,13 @@ export class ProductoCategoriaComponent implements OnInit {
 
   categorias: any = [];
   productos: any = [];
+  banners: BannerDto[];
   totalRecords: number;
   formData = new FormData();
+  formDataBanner = new FormData();
 
   nombreProducto = new FormControl('');
+  nombreBanner = new FormControl('');
   //selectedCategoria = new FormControl('');
   selectedCategoria?: string;
   precioProducto = new FormControl('');
@@ -33,18 +39,22 @@ export class ProductoCategoriaComponent implements OnInit {
   @ViewChild('myInputFile')
   myInputFile: ElementRef;
 
+  @ViewChild('myInputBannerFile')
+  myInputBannerFile: ElementRef;
 
   retrievedImage: any;
   base64Data: any;
   retrieveResonse: any;
+  retrievedBannerImage: any;
 
-  constructor(public productoCategoriaService: ProductoCategoriaService) { }
+  constructor(public productoCategoriaService: ProductoCategoriaService,
+    private messageService: MessageService) { }
 
   ngOnInit(): void {
 
     this.llenarTablaCategorias();
     this.llenarTablaProductos();
-
+    this.llenarTablaBanners();
   }
 
   llenarTablaCategorias() {
@@ -78,15 +88,21 @@ export class ProductoCategoriaComponent implements OnInit {
     });
   }
 
+  llenarTablaBanners() {
+    this.productoCategoriaService.getBannersTienda().subscribe(data => {
+      this.banners = data;
+    });
+  }
+
   guardarCategoria() {
     this.productoCategoriaService.guardarCategoria(this.categoriaDTO).subscribe(
       data => {
-        alert("Categoria guardada con exito!")
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'La categoria ha sido guardada con éxito.' });
         this.categoriaDTO = {};
         this.llenarTablaCategorias();
       },
       err => {
-        alert("No se ha guardado la categoria");
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se ha guardado la categoria.' });
       }
     );
   }
@@ -116,14 +132,29 @@ export class ProductoCategoriaComponent implements OnInit {
 
     this.productoCategoriaService.guardarProducto(this.formData).subscribe(
       data => {
-        alert("Producto guardado con exito!");
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Producto guardado con éxito.' });
         this.limpiarFormularioProducto();
         this.llenarTablaProductos();
       },
       err => {
-        alert("No se ha guardado el producto");
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No se ha guardado el producto.' });
       }
     );
+  }
+
+  guardarBanner() {
+    let bannerUpload = {
+      descripcion: this.nombreBanner.value
+    };
+    this.formDataBanner.append("banner", JSON.stringify(bannerUpload));
+    this.productoCategoriaService.guardarBanner(this.formDataBanner).subscribe(data => {
+      this.formDataBanner = new FormData();
+      this.nombreBanner.reset();
+      this.myInputBannerFile.nativeElement.value = '';
+      this.retrievedBannerImage = null;
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'El banner ha sido guardado con éxito.' });
+      this.llenarTablaBanners();
+    });
   }
 
   limpiarFormularioProducto() {
@@ -140,14 +171,23 @@ export class ProductoCategoriaComponent implements OnInit {
   onFileSelected(event: any) {
     this.formData.delete("fichero");
     const file: File = event.target.files[0];
-    console.log(file);
     const fr = new FileReader();
     fr.onload = (evento: any) => {
       this.retrievedImage = evento.target.result;
     }
     this.formData.append("fichero", file);
     fr.readAsDataURL(file);
+  }
 
+  onFileBannerSelected(event: any) {
+    this.formDataBanner.delete("fichero");
+    const file: File = event.target.files[0];
+    const fr = new FileReader();
+    fr.onload = (evento: any) => {
+      this.retrievedBannerImage = evento.target.result;
+    }
+    this.formDataBanner.append("fichero", file);
+    fr.readAsDataURL(file);
   }
 
   getProductoImage(id: string) {
@@ -186,6 +226,14 @@ export class ProductoCategoriaComponent implements OnInit {
 
   }
 
+  onRowSelectBanner(event: any) {
+    this.nombreBanner.setValue(event.data.descripcion);
+  }
+
+  onRowUnselectBanner(event: any) {
+    this.nombreBanner.reset();
+    this.myInputBannerFile.nativeElement.value = '';
+  }
 
 
 

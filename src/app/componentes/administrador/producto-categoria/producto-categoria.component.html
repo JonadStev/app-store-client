@@ -166,10 +166,89 @@
                         </div>
                     </div>
                 </div>
+            </p-card>
+        </div>
+    </div>
 
+
+    <br>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <p-card>
+                <ng-template pTemplate="header">
+                    <h3 class="ml-2">ADMINISTRACIÓN DE BANNERS</h3>
+                    <hr>
+                </ng-template>
+                <br>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="grid p-fluid ">
+                            
+                            <form action="/" method="POST" enctype="multipart/form-data" (ngSubmit) = 'guardarBanner()' #forma="ngForm">
+                                <div class="form-group row">
+                                    <label for="txtNombre" class="col-sm-6 col-form-label">Nombre del banner:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="txtNombre" pInputText [formControl] = "nombreBanner">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label for="txtStock" class="col-sm-6 col-form-label">Foto del banner:</label>
+                                    <div class="col-sm-6">
+                                        <input class="file-input" type="file" id="txtImagen" (change)="onFileBannerSelected($event)" #myInputBannerFile> 
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="txtStock" class="col-sm-6 col-form-label">Vista previa banner:</label>
+                                    <div class="col-sm-6">
+                                        <div *ngIf=retrievedBannerImage>
+                                            <img class="img-thumbnail" [src]="retrievedBannerImage">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6">
+                                        <button class="mr-sm-2 p-button-warning" pButton type="submit" iconPos="left" label="Guardar banner"></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <h4>Lista de banners</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <p-table [value]="banners" selectionMode="single" dataKey="id"
+                                (onRowSelect)="onRowSelectBanner($event)" (onRowUnselect)="onRowUnselectBanner($event)"
+                                [paginator]="true" [rows]="5" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} banner" [rowsPerPageOptions]="[5,10,15]">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Descripsion</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-banner>
+                                    <tr [pSelectableRow]="banner">
+                                        <td>{{banner.id}}</td>
+                                        <td>{{banner.descripcion}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
             </p-card>
         </div>
     </div>
 
 
 </div>
+<p-toast position="top-right"></p-toast>

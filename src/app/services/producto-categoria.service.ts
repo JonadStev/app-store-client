@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { BannerDto } from '../modelos/banner';
 import { ProductoDto } from '../modelos/productos';
 
 export interface CategoriaDto {
@@ -47,6 +48,19 @@ export class ProductoCategoriaService {
     return this.httpClient.get<ProductoDto>(this.adminUrl + 'producto/' + id);
   }
 
+  public guardarBanner(formData: FormData): Observable<BannerDto> {
+    return this.httpClient.post<BannerDto>(this.adminUrl + 'saveBanner', formData);
+  }
+
+  public getBanner(id: string): Observable<BannerDto> {
+    return this.httpClient.get<BannerDto>(this.adminUrl + 'banner/' + id);
+  }
+
+  public deleteBanner(id: string): Observable<string> {
+    return this.httpClient.delete<string>(this.adminUrl + 'banner/delete/' + id);
+  }
+
+
 
   // TIENDA
   public getProductosTienda(): Observable<ProductoDto[]> {
@@ -55,6 +69,10 @@ export class ProductoCategoriaService {
 
   public getCategoriasTienda(): Observable<CategoriaData[]> {
     return this.httpClient.get<CategoriaData[]>(this.tiendaUrl + 'getCategorias');
+  }
+
+  public getBannersTienda(): Observable<BannerDto[]> {
+    return this.httpClient.get<BannerDto[]>(this.tiendaUrl + 'banners');
   }
 
 }

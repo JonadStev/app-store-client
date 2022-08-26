@@ -21,10 +21,13 @@ import { CarouselModule } from 'primeng/carousel';
 import { GMapModule } from 'primeng/gmap';
 import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
+import { GalleriaModule } from 'primeng/galleria';
+import { ToastModule } from 'primeng/toast';
 import { TiendaComponent } from './componentes/tienda/tienda.component';
 import { interceptorProvider } from './interceptors/prod-interceptor.service';
 import { ProductoCategoriaComponent } from './componentes/administrador/producto-categoria/producto-categoria.component';
 import { ProveedoresRepartidoresComponent } from './componentes/administrador/proveedores-repartidores/proveedores-repartidores.component';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -54,9 +57,11 @@ import { ProveedoresRepartidoresComponent } from './componentes/administrador/pr
     CarouselModule,
     GMapModule,
     TableModule,
-    DropdownModule
+    DropdownModule,
+    GalleriaModule,
+    ToastModule
   ],
-  providers: [interceptorProvider],
+  providers: [interceptorProvider, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

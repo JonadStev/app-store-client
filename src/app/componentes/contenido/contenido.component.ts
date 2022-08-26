@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductoCategoriaService } from 'src/app/services/producto-categoria.service';
 
 export interface Product {
   name?: string;
@@ -27,11 +28,43 @@ export class ContenidoComponent implements OnInit {
 
   productosMasVendidos = ELEMENT_DATA;
 
-  constructor() {
+  images: any[];
+
+  responsiveOptions: any[] = [
+    {
+      breakpoint: '1024px',
+      numVisible: 5
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 3
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 1
+    }
+  ];
+
+  constructor(private productService: ProductoCategoriaService) {
 
   }
 
   ngOnInit(): void {
+    this.obtenerBanners();
+  }
+
+  obtenerBanners() {
+    this.productService.getBannersTienda().subscribe(data => {
+      this.images = [];
+      for (const d of (data as any)) {
+        this.images.push({
+          previewImageSrc: 'data:image/jpg;base64,' + d.picByte,
+          thumbnailImageSrc: 'data:image/jpg;base64,' + d.picByte,
+          alt: d.descripcion,
+          title: d.descripcion
+        });
+      }
+    });
   }
 
 }
