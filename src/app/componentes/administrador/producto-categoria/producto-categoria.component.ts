@@ -47,6 +47,9 @@ export class ProductoCategoriaComponent implements OnInit {
   retrieveResonse: any;
   retrievedBannerImage: any;
 
+  btnDisableBanner: boolean = false;
+  idEliminarBanner: string;
+
   constructor(public productoCategoriaService: ProductoCategoriaService,
     private messageService: MessageService) { }
 
@@ -148,10 +151,7 @@ export class ProductoCategoriaComponent implements OnInit {
     };
     this.formDataBanner.append("banner", JSON.stringify(bannerUpload));
     this.productoCategoriaService.guardarBanner(this.formDataBanner).subscribe(data => {
-      this.formDataBanner = new FormData();
-      this.nombreBanner.reset();
-      this.myInputBannerFile.nativeElement.value = '';
-      this.retrievedBannerImage = null;
+      this.limpiarFomularioBanner();
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'El banner ha sido guardado con éxito.' });
       this.llenarTablaBanners();
     });
@@ -166,6 +166,13 @@ export class ProductoCategoriaComponent implements OnInit {
     this.myInputFile.nativeElement.value = '';
     this.retrievedImage = null;
     this.selectedCategoria = '';
+  }
+
+  limpiarFomularioBanner() {
+    this.formDataBanner = new FormData();
+    this.nombreBanner.reset();
+    this.myInputBannerFile.nativeElement.value = '';
+    this.retrievedBannerImage = null;
   }
 
   onFileSelected(event: any) {
@@ -228,13 +235,25 @@ export class ProductoCategoriaComponent implements OnInit {
 
   onRowSelectBanner(event: any) {
     this.nombreBanner.setValue(event.data.descripcion);
+    this.btnDisableBanner = true;
+    this.idEliminarBanner = event.data.id
   }
 
   onRowUnselectBanner(event: any) {
     this.nombreBanner.reset();
     this.myInputBannerFile.nativeElement.value = '';
+    this.btnDisableBanner = false;
+    this.idEliminarBanner = '';
   }
 
-
+  deleteBanner() {
+    this.productoCategoriaService.deleteBanner(this.idEliminarBanner).subscribe(data => {
+      console.log(data);
+      this.btnDisableBanner = false;
+      this.limpiarFomularioBanner();
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'El banner ha sido eliminado con éxito.' });
+      this.llenarTablaBanners();
+    })
+  }
 
 }

@@ -56,8 +56,8 @@ export class ProductoCategoriaService {
     return this.httpClient.get<BannerDto>(this.adminUrl + 'banner/' + id);
   }
 
-  public deleteBanner(id: string): Observable<string> {
-    return this.httpClient.delete<string>(this.adminUrl + 'banner/delete/' + id);
+  public deleteBanner(id: string): Observable<any> {
+    return this.httpClient.delete<any>(this.adminUrl + 'banner/delete/' + id);
   }
 
 
