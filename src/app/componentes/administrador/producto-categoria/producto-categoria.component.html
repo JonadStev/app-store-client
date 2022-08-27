@@ -86,6 +86,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="txtDescripcion" class="col-sm-6 col-form-label">Descripción del producto:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="txtDescripcion" pInputText [formControl] = "descripcionProducto">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="txtPrecio" class="col-sm-6 col-form-label">Precio del producto:</label>
                                     <div class="col-sm-6">
                                         <input type="number" id="txtPrecio" pInputText [formControl] = "precioProducto">
@@ -114,7 +120,13 @@
                                 <div class="form-group row">
                                     <label for="txtStock" class="col-sm-6 col-form-label">Categoria del producto:</label>
                                     <div class="col-sm-6">
-                                        <p-dropdown [options]="categorias" [(ngModel)]="selectedCategoria" optionLabel="nombreCategoria" optionValue="id" placeholder="Seleccione la categoria" [ngModelOptions]="{standalone: true}"></p-dropdown>
+                                        <p-dropdown [options]="categorias" [(ngModel)]="selectedCategoria" optionLabel="nombreCategoria" optionValue="id" placeholder="Seleccione..." [ngModelOptions]="{standalone: true}"></p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="txtStock" class="col-sm-6 col-form-label">Proveedor:</label>
+                                    <div class="col-sm-6">
+                                        <p-dropdown [options]="proveedores" [(ngModel)]="selectedProveedor" optionLabel="nombre" optionValue="id" placeholder="Seleccione..." [ngModelOptions]="{standalone: true}"></p-dropdown>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -144,22 +156,24 @@
                                     <tr>
                                         <th>Id</th>
                                         <th>Nombre</th>
+                                        <th>Descripción</th>
                                         <th>Precio</th>
                                         <th>Stock</th>
-                                        <th>srcImage</th>
                                         <th>estado</th>
                                         <th>Categoria</th>
+                                        <th>Proveedor</th>
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-producto>
                                     <tr [pSelectableRow]="producto">
                                         <td>{{producto.id}}</td>
                                         <td>{{producto.nombre}}</td>
+                                        <td>{{producto.descripcion}}</td>
                                         <td>{{producto.precio}}</td>
                                         <td>{{producto.stock}}</td>
-                                        <td>{{producto.srcImage}}</td>
                                         <td>{{producto.estado}}</td>
                                         <td>{{producto.categoria.nombreCategoria}}</td>
+                                        <td>{{producto.proveedor.nombre}}</td>
                                     </tr>
                                 </ng-template>
                             </p-table>

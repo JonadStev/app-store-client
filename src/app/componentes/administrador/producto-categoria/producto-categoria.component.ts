@@ -6,6 +6,8 @@ import { ViewChild } from '@angular/core';
 import { BannerDto } from 'src/app/modelos/banner';
 import { ThisReceiver } from '@angular/compiler';
 import { MessageService } from 'primeng/api';
+import { ProveedorDto } from 'src/app/modelos/ProveedorDTO';
+import { ProveedorService } from 'src/app/services/proveedor.service';
 
 @Component({
   selector: 'app-producto-categoria',
@@ -17,6 +19,8 @@ export class ProductoCategoriaComponent implements OnInit {
 
   categoriaDTO: CategoriaDto = {};
   productoDTO: ProductoDto = {};
+  proveedorDTO: ProveedorDto = {};
+  proveedores: ProveedorDto[];
 
   categorias: any = [];
   productos: any = [];
@@ -26,9 +30,11 @@ export class ProductoCategoriaComponent implements OnInit {
   formDataBanner = new FormData();
 
   nombreProducto = new FormControl('');
+  descripcionProducto = new FormControl('');
   nombreBanner = new FormControl('');
   //selectedCategoria = new FormControl('');
   selectedCategoria?: string;
+  selectedProveedor?: string;
   precioProducto = new FormControl('');
   stockProducto = new FormControl();
   selectedIdProducto: string;
@@ -51,13 +57,15 @@ export class ProductoCategoriaComponent implements OnInit {
   idEliminarBanner: string;
 
   constructor(public productoCategoriaService: ProductoCategoriaService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private proveedorSerive: ProveedorService) { }
 
   ngOnInit(): void {
 
     this.llenarTablaCategorias();
     this.llenarTablaProductos();
     this.llenarTablaBanners();
+    this.llenarProveedores();
   }
 
   llenarTablaCategorias() {
@@ -75,19 +83,27 @@ export class ProductoCategoriaComponent implements OnInit {
 
   llenarTablaProductos() {
     this.productoCategoriaService.getProductos().subscribe(data => {
-      //console.log(data);
+      console.log(data);
       this.productos = [];
       for (const d of (data as any)) {
         this.productos.push({
           id: d.id,
           nombre: d.nombre,
+          descripcion: d.descripcion,
           precio: d.precio,
           stock: d.stock,
           srcImage: d.srcImage,
           estado: d.estado,
-          categoria: d.categoria
+          categoria: d.categoria,
+          proveedor: d.proveedor
         });
       }
+    });
+  }
+
+  llenarProveedores() {
+    this.proveedorSerive.getProveedores().subscribe(data => {
+      this.proveedores = data;
     });
   }
 
@@ -116,9 +132,15 @@ export class ProductoCategoriaComponent implements OnInit {
         this.productoDTO.categoria = cat;
     }
 
+    for (const prov of this.proveedores) {
+      if (prov.id === this.selectedProveedor)
+        this.productoDTO.proveedor = prov;
+    }
+
     let productoUpload = {
       id: (this.selectedIdProducto !== '' || this.selectedIdProducto !== undefined) ? this.selectedIdProducto : '',
       nombre: this.nombreProducto.value,
+      descripcion: this.descripcionProducto.value,
       precio: this.precioProducto.value,
       stock: this.stockProducto.value,
       //srcImage: (this.selectedSrcImage !== '' || this.selectedSrcImage !== undefined) ? this.selectedSrcImage : '',
@@ -127,6 +149,13 @@ export class ProductoCategoriaComponent implements OnInit {
       categoria: {
         id: this.productoDTO.categoria?.id,
         nombreCategoria: this.productoDTO.categoria?.nombreCategoria
+      },
+      proveedor: {
+        id: this.productoDTO.proveedor?.id,
+        nombre: this.productoDTO.proveedor?.nombre,
+        correo: this.productoDTO.proveedor?.correo,
+        telefono: this.productoDTO.proveedor?.telefono,
+        estado: this.productoDTO.proveedor?.estado
       }
     }
 
@@ -161,11 +190,13 @@ export class ProductoCategoriaComponent implements OnInit {
     this.productoDTO = {};
     this.formData = new FormData();
     this.nombreProducto.reset();
+    this.descripcionProducto.reset();
     this.precioProducto.reset();
     this.stockProducto.reset();
     this.myInputFile.nativeElement.value = '';
     this.retrievedImage = null;
     this.selectedCategoria = '';
+    this.selectedProveedor = '';
   }
 
   limpiarFomularioBanner() {
@@ -222,10 +253,12 @@ export class ProductoCategoriaComponent implements OnInit {
     this.selectedIdProducto = event.data.id;
     //this.selectedSrcImage = event.data.srcImage;
     this.nombreProducto.setValue(event.data.nombre);
+    this.descripcionProducto.setValue(event.data.descripcion);
     this.precioProducto.setValue(event.data.precio);
     this.stockProducto.setValue(event.data.stock);
     this.getProductoImage(event.data.id)
     this.selectedCategoria = event.data.categoria.id;
+    this.selectedProveedor = event.data.proveedor.id;
 
     var blob = new Blob([this.base64Data], { type: 'image/jpg' });
     const file: File = new File([blob], 'imageFileName.jpg');

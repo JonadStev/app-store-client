@@ -1,3 +1,5 @@
+import { ProveedorDto } from "./ProveedorDTO"
+
 export interface ProductoDto {
     id?: number,
     nombre?: string,
@@ -6,7 +8,8 @@ export interface ProductoDto {
     srcImage?: string,
     picByte?: string,
     estado?: string,
-    categoria?: Categoria
+    categoria?: Categoria,
+    proveedor?: ProveedorDto
 }
 
 export interface Categoria {
