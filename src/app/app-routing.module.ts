@@ -6,6 +6,8 @@ import { ContactoComponent } from './componentes/contacto/contacto.component';
 import { ContenidoComponent } from './componentes/contenido/contenido.component';
 import { InicioComponent } from './componentes/inicio/inicio.component';
 import { NosotrosComponent } from './componentes/nosotros/nosotros.component';
+import { OrdenDetalleComponent } from './componentes/orden-detalle/orden-detalle.component';
+import { RepartidorComponent } from './componentes/repartidor/repartidor.component';
 import { TiendaComponent } from './componentes/tienda/tienda.component';
 import { ProdGuardService } from './guards/prod-guard.service';
 import { PagarComponent } from './tienda/pagar/pagar.component';
@@ -15,6 +17,8 @@ const routes: Routes = [
   { path: 'nosotros', component: NosotrosComponent },
   { path: 'contacto', component: ContactoComponent },
   { path: 'tienda', component: TiendaComponent },
+  { path: 'repartidor/ordenes', component: RepartidorComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'delivery'] } },
+  { path: 'repartidor/ordenes/orden/:id', component: OrdenDetalleComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'delivery'] } },
   { path: 'tienda/pagar', component: PagarComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user'] } },
   { path: 'admin/productos-categorias', component: ProductoCategoriaComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin'] } },
   { path: 'admin/proveedores-repartidores', component: ProveedoresRepartidoresComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin'] } },

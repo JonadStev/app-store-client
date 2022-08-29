@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CarritoDto } from '../modelos/carrito';
 import { OrdenDto } from '../modelos/orden';
+import { OrdenDetalleDto, OrdenEntregaDto } from '../modelos/ordenEntrega';
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,24 @@ export class TiendaService {
     return this.http.post<any>(this.tiendaUrl + 'saveOrden', orden);
   }
 
+  public getOrdenesEntrega(): Observable<OrdenEntregaDto[]> {
+    return this.http.get<OrdenEntregaDto[]>(this.tiendaUrl + 'ordenes');
+  }
+
+  public getOrdenDetalleEntrega(id: string): Observable<OrdenDetalleDto[]> {
+    return this.http.get<OrdenDetalleDto[]>(this.tiendaUrl + 'orden/' + id);
+  }
+
+  public asignarRepartidorOrden(params: any): Observable<any> {
+    return this.http.put<any>(this.tiendaUrl + 'asignar/', params);
+  }
+
+  public cerrarOrden(params: any): Observable<any> {
+    return this.http.put<any>(this.tiendaUrl + 'cerrarOrden/', params);
+  }
+
+  public getOrdenesEntregaAsignadas(usuarioRepartidor: string): Observable<OrdenEntregaDto[]> {
+    return this.http.get<OrdenEntregaDto[]>(this.tiendaUrl + 'ordenes/' + usuarioRepartidor);
+  }
 
 }

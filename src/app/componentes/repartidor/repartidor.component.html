@@ -1,0 +1,111 @@
+<div class="container" style="margin-top: 120px;">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <p-card>
+                <ng-template pTemplate="header">
+                    <h3 class="ml-2">ORDENES DE ENTREGA</h3>
+                    <hr>
+                </ng-template>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="p-fluid grid">
+                            <div class="field col-12 md:col-12 mt-4">
+                              <span class="p-float-label">
+                                  <input type="text" id="txtCategoria" pInputText [(ngModel)] = "idOrden" disabled> 
+                                  <label for="txtCategoria">ORDEN NO.</label>
+                              </span>
+                            </div>
+                            <div class="field col-12 md:col-12 mt-4">
+                              <button class="mr-sm-2 p-button-warning" pButton type="button" iconPos="left" label="Asignarme orden de entrega" (click)="asignar(idOrden)"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <h4>Listado de ordenes abiertas</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <p-table [value]="ordenes" selectionMode="single" dataKey="id"
+                                (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+                                [paginator]="true" [rows]="4" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ordenes" [rowsPerPageOptions]="[4,8,16]">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Nombre del cliente</th>
+                                        <th>Direccion de entrega</th>
+                                        <th>Estado de la orden</th>
+                                        <th>Detalle</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-orden>
+                                    <tr [pSelectableRow]="orden">
+                                        <td>{{orden.id}}</td>
+                                        <td>{{orden.nombreCliente}}</td>
+                                        <td>{{orden.direccionEnvio}}</td>
+                                        <td>{{orden.estadoEntrega}}</td>
+                                        <td>
+                                            <button type="button" pButton pRipple icon="pi pi-search" [routerLink]="['/repartidor/ordenes/orden', orden.id]"></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <h4>Mis ordenes de entrega</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="p-fluid grid">
+                            <div class="field col-12 md:col-12 mt-4">
+                              <button class="mr-sm-2 p-button-warning" pButton type="button" iconPos="left" label="Cerrar orden de entrega" (click)="cerrarOrden(idOrdenAsignada)"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <p-table [value]="ordenesAsignadas" selectionMode="single" dataKey="id"
+                                (onRowSelect)="onRowSelectAsignada($event)" (onRowUnselect)="onRowUnselectAsignada($event)"
+                                [paginator]="true" [rows]="4" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ordenes" [rowsPerPageOptions]="[4,8,16]">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Nombre del cliente</th>
+                                        <th>Direccion de entrega</th>
+                                        <th>Estado de la orden</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-orden>
+                                    <tr [pSelectableRow]="orden">
+                                        <td>{{orden.id}}</td>
+                                        <td>{{orden.nombreCliente}}</td>
+                                        <td>{{orden.direccionEnvio}}</td>
+                                        <td>{{orden.estadoEntrega}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+                
+            </p-card>
+        </div>
+    </div>
+</div>
+<p-toast position="top-right" key="myKey1"></p-toast>
+<p-toast position="top-right" key="myKey2"></p-toast>

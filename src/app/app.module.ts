@@ -32,6 +32,8 @@ import { ProductoCategoriaComponent } from './componentes/administrador/producto
 import { ProveedoresRepartidoresComponent } from './componentes/administrador/proveedores-repartidores/proveedores-repartidores.component';
 import { MessageService } from 'primeng/api';
 import { PagarComponent } from './tienda/pagar/pagar.component';
+import { RepartidorComponent } from './componentes/repartidor/repartidor.component';
+import { OrdenDetalleComponent } from './componentes/orden-detalle/orden-detalle.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { PagarComponent } from './tienda/pagar/pagar.component';
     TiendaComponent,
     ProductoCategoriaComponent,
     ProveedoresRepartidoresComponent,
-    PagarComponent
+    PagarComponent,
+    RepartidorComponent,
+    OrdenDetalleComponent,
   ],
   imports: [
     FormsModule,
