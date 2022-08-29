@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CarritoDto } from '../modelos/carrito';
+import { OrdenDto } from '../modelos/orden';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,11 @@ export class TiendaService {
 
   public deleteCarrito(): Observable<any> {
     return this.http.delete<any>(this.tiendaUrl + 'deleteAll');
+  }
+
+  //saveOrden
+  public guardarOrden(orden: OrdenDto): Observable<any> {
+    return this.http.post<any>(this.tiendaUrl + 'saveOrden', orden);
   }
 
 

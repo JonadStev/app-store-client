@@ -81,6 +81,15 @@ export class InicioComponent implements OnInit {
   registrar() {
     this.nuevoUsuario.nombre = this.txtNombre + ' ' + this.txtApellido;
     this.nuevoUsuario.roles = ['user'];
+
+    if (this.nuevoUsuario.nombre === '' || this.nuevoUsuario.nombre === undefined ||
+      this.nuevoUsuario.direccion === '' || this.nuevoUsuario.direccion === undefined ||
+      this.nuevoUsuario.email === '' || this.nuevoUsuario.email === undefined ||
+      this.nuevoUsuario.nombreUsuario === '' || this.nuevoUsuario.nombreUsuario === undefined ||
+      this.nuevoUsuario.password === '' || this.nuevoUsuario.password === undefined) {
+      this.messageService.add({ key: 'myKey2', severity: 'info', summary: 'Información', detail: 'Por favor, ingrese todo sus datos para el registro.' });
+      return;
+    }
     this.authService.nuevo(this.nuevoUsuario).subscribe(
       data => {
         console.log('ENTRA POR DATA ' + data)
@@ -89,7 +98,7 @@ export class InicioComponent implements OnInit {
         if (err.status === 400)
           console.log(err.error);
         else {
-          this.messageService.add({ key: 'myKey1', severity: 'success', summary: 'Success', detail: 'Usuario registrado con éxito, por favor inicie sesión con sus credenciales.' });
+          this.messageService.add({ key: 'myKey2', severity: 'success', summary: 'Success', detail: 'Usuario registrado con éxito, por favor inicie sesión con sus credenciales.' });
           this.nuevoUsuario = {};
           this.txtNombre = '';
           this.txtApellido = '';

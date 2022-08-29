@@ -26,9 +26,10 @@ const ELEMENT_DATA: Product[] = [
 
 export class ContenidoComponent implements OnInit {
 
-  productosMasVendidos = ELEMENT_DATA;
+  //productosMasVendidos = ELEMENT_DATA;
 
   images: any[];
+  productosMasVendidos: any[];
 
   responsiveOptions: any[] = [
     {
@@ -51,6 +52,7 @@ export class ContenidoComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerBanners();
+    this.getProductosMasVendidos();
   }
 
   obtenerBanners() {
@@ -64,6 +66,21 @@ export class ContenidoComponent implements OnInit {
           title: d.descripcion
         });
       }
+    });
+  }
+
+  getProductosMasVendidos() {
+    this.productService.getProductosMasVendidos().subscribe(data => {
+      this.productosMasVendidos = [];
+      for (const d of (data as any)) {
+        this.productosMasVendidos.push({
+          name: d.nombre,
+          price: d.precio,
+          inventoryStatus: 'En Stock',
+          previewImageSrc: 'data:image/jpg;base64,' + d.picByte
+        });
+      }
+      console.log(this.productosMasVendidos);
     });
   }
 

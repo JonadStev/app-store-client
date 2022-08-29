@@ -25,7 +25,7 @@
                         <div class="product-item">
                             <div class="product-item-content">
                                 <div class="mb-3" style="min-height: 210px;">
-                                    <img src="assets/img/Productos/{{product.image}}" [alt]="product.name" class="product-image" />
+                                    <img [src]="product.previewImageSrc" [alt]="product.name" class="product-image" />
                                 </div>
                                 <div>
                                     <h4 class="mb-1">{{product.name}}</h4>
@@ -60,7 +60,7 @@
                         <div class="product-item">
                             <div class="product-item-content" style="background-color: #ffff;">
                                 <div class="mb-3">
-                                    <img src="assets/img/Productos/{{product.image}}" [alt]="product.name" class="product-image" style="width: 130px; height: 130px;" />
+                                    <img [src]="product.previewImageSrc" [alt]="product.name" class="product-image" style="width: 130px; height: 130px;" />
                                 </div>
                                 <div>
                                     <h4 class="mb-1">{{product.name}}</h4>

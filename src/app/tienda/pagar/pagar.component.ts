@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Message, MessageService } from 'primeng/api';
 import { CarritoDto } from 'src/app/modelos/carrito';
+import { OrdenDto } from 'src/app/modelos/orden';
 import { TiendaService } from 'src/app/services/tienda.service';
 import { TokenService } from 'src/app/services/token.service';
 
@@ -21,8 +22,16 @@ export class PagarComponent implements OnInit {
   selectedPago?: string;
   blockInput: boolean;
   nombreTarjeta = new FormControl('');
+  numeroTarjeta = new FormControl('');
+  fechaTarjeta = new FormControl('');
+  codigoTarjeta = new FormControl('');
+  direccionCredito = new FormControl('');
+
+  orden: OrdenDto = {};
 
   msgs: Message[];
+  direccionEfectivo: string;
+
 
   constructor(private tokenService: TokenService,
     private messageService: MessageService,
@@ -36,6 +45,28 @@ export class PagarComponent implements OnInit {
     ];
   }
 
+  llenarOrden() {
+    if (this.selectedPago === 'EFECTIVO') {
+      this.orden.direccionEnvio = this.direccionEfectivo
+    } else {
+      this.orden.direccionEnvio = this.direccionCredito.value as string;
+    }
+    this.orden.metodoPago = this.selectedPago;
+    this.orden.estadoPedido = 'ABIERTO';
+    this.orden.usuario = this.tokenService.getUserNameByToken();
+    this.orden.carrito = this.addCarrito;
+
+  }
+
+  limpiarPago() {
+    this.nombreTarjeta.setValue('');
+    this.numeroTarjeta.setValue('');
+    this.fechaTarjeta.setValue('');
+    this.codigoTarjeta.setValue('');
+    this.direccionCredito.setValue('');
+    this.direccionEfectivo = '';
+  }
+
   llenarCarrito() {
     this.totalCarrito = 0;
     if (this.tokenService.isLogger()) {
@@ -44,6 +75,7 @@ export class PagarComponent implements OnInit {
         for (const d of (this.addCarrito as any)) {
           let precio = d.precio as number * d.cantidad;
           this.totalCarrito += precio;
+          d.fecha = '';
         }
       });
     }
@@ -56,6 +88,28 @@ export class PagarComponent implements OnInit {
       this.blockInput = false;
     console.log(this.blockInput);
     //console.log(this.nombreTarjeta.value);
+  }
+
+  pagoCredito() {
+    this.llenarOrden();
+    //console.log(this.orden);
+    this.tiendaService.guardarOrden(this.orden).subscribe(data => {
+      console.log(data);
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Se ha generado la ORDEN DE COMPRA NO. ' + data.ORDEN_COMPRA });
+      this.limpiarPago();
+      this.llenarCarrito();
+    });
+
+  }
+
+  pagoEfectivo() {
+    this.llenarOrden();
+    this.tiendaService.guardarOrden(this.orden).subscribe(data => {
+      console.log(data);
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Se ha generado la ORDEN DE COMPRA NO. ' + data.ORDEN_COMPRA });
+      this.limpiarPago();
+      this.llenarCarrito();
+    });
   }
 
 }

@@ -67,6 +67,10 @@ export class ProductoCategoriaService {
     return this.httpClient.get<ProductoDto[]>(this.tiendaUrl + 'productos');
   }
 
+  public getProductosMasVendidos(): Observable<ProductoDto[]> {
+    return this.httpClient.get<ProductoDto[]>(this.tiendaUrl + 'productoMasVendidos');
+  }
+
   public getCategoriasTienda(): Observable<CategoriaData[]> {
     return this.httpClient.get<CategoriaData[]>(this.tiendaUrl + 'getCategorias');
   }
