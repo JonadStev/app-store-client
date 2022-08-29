@@ -8,12 +8,14 @@ import { InicioComponent } from './componentes/inicio/inicio.component';
 import { NosotrosComponent } from './componentes/nosotros/nosotros.component';
 import { TiendaComponent } from './componentes/tienda/tienda.component';
 import { ProdGuardService } from './guards/prod-guard.service';
+import { PagarComponent } from './tienda/pagar/pagar.component';
 
 const routes: Routes = [
   { path: '', component: ContenidoComponent },
   { path: 'nosotros', component: NosotrosComponent },
   { path: 'contacto', component: ContactoComponent },
   { path: 'tienda', component: TiendaComponent },
+  { path: 'tienda/pagar', component: PagarComponent },
   { path: 'admin/productos-categorias', component: ProductoCategoriaComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin'] } },
   { path: 'admin/proveedores-repartidores', component: ProveedoresRepartidoresComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin'] } },
 ];

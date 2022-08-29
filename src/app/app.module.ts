@@ -23,11 +23,15 @@ import { TableModule } from 'primeng/table';
 import { DropdownModule } from 'primeng/dropdown';
 import { GalleriaModule } from 'primeng/galleria';
 import { ToastModule } from 'primeng/toast';
+import { DataViewModule } from 'primeng/dataview';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
 import { TiendaComponent } from './componentes/tienda/tienda.component';
 import { interceptorProvider } from './interceptors/prod-interceptor.service';
 import { ProductoCategoriaComponent } from './componentes/administrador/producto-categoria/producto-categoria.component';
 import { ProveedoresRepartidoresComponent } from './componentes/administrador/proveedores-repartidores/proveedores-repartidores.component';
 import { MessageService } from 'primeng/api';
+import { PagarComponent } from './tienda/pagar/pagar.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +42,8 @@ import { MessageService } from 'primeng/api';
     ContactoComponent,
     TiendaComponent,
     ProductoCategoriaComponent,
-    ProveedoresRepartidoresComponent
+    ProveedoresRepartidoresComponent,
+    PagarComponent
   ],
   imports: [
     FormsModule,
@@ -59,7 +64,10 @@ import { MessageService } from 'primeng/api';
     TableModule,
     DropdownModule,
     GalleriaModule,
-    ToastModule
+    ToastModule,
+    DataViewModule,
+    MessagesModule,
+    MessageModule
   ],
   providers: [interceptorProvider, MessageService],
   bootstrap: [AppComponent]

@@ -2,3 +2,16 @@
     background-color: #0e2c40;
     padding: 14px;
 }
+
+
+.product-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    width: 100%;
+    border-bottom: 1px solid var(--surface-d);
+
+    .product-list-detail {
+        flex: 1 1 0;
+    }
+}

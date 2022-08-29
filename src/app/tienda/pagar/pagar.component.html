@@ -1,0 +1,114 @@
+<div class="container " style="margin-top: 120px;">
+    <div class="row">
+        <div class="col-lg-12 col-md-6 col-sm-12">
+            <p-card>
+                <ng-template pTemplate="header">
+                    <h1 style="text-align: center; padding-top: 20px;">Ventana de pago</h1>
+                </ng-template>
+                <hr>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Forma de pago:</label>
+                            <div class="col-sm-6">
+                                <p-dropdown (onChange)="seleccionPago()" [options]="formaPago" [(ngModel)]="selectedPago" optionLabel="nombre" optionValue="nombre" placeholder="Seleccione..." [ngModelOptions]="{standalone: true}"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ng-template #templateName>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label"></label>
+                                <div class="col-sm-6">
+                                    <p-messages [(value)]="msgs"></p-messages>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-4">
+                                </div>
+                                <div class="col-sm-4">
+                                    <button class="mr-sm-2 p-button-warning" pButton type="submit" iconPos="left" label="Realizar pago"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <div class="row" *ngIf="!blockInput ; else templateName">
+                    <div class="col-12">
+                        <div class="grid p-fluid ">
+                            
+                            <form action="/" method="POST" enctype="multipart/form-data">
+                                <div class="form-group row">
+                                    <label for="nombreTarjeta" class="col-sm-4 col-form-label">Nombre del titular de la tarjeta:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="nombreTarjeta" pInputText [formControl]="nombreTarjeta">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="txtDescripcion" class="col-sm-4 col-form-label">Número de tarjeta:</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="txtDescripcion" pInputText>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="txtPrecio" class="col-sm-4 col-form-label">Fecha de expiración:</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" id="txtPrecio" pInputText>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="txtStock" class="col-sm-4 col-form-label">Código de seguridad CVV:</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" id="txtStock" pInputText>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button class="mr-sm-2 p-button-warning" pButton type="submit" iconPos="left" label="Realizar pago"></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <h4>Total a pagar: ${{totalCarrito}}</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <p-table [value]="addCarrito" selectionMode="single" dataKey="id"
+                                [paginator]="true" [rows]="5" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos" [rowsPerPageOptions]="[5,10,15]">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Precio</th>
+                                        <th>Cantidad</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-producto>
+                                    <tr [pSelectableRow]="producto">
+                                        <td>{{producto.nombreProducto}}</td>
+                                        <td>{{producto.precio}}</td>
+                                        <td>{{producto.cantidad}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+                
+            </p-card>
+        </div>
+    </div>
+</div>
+<p-toast position="top-right"></p-toast>

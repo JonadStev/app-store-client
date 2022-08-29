@@ -90,12 +90,12 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
             <p-card>
                 <ng-template pTemplate="header">
-                    <h3 class="ml-2">ADMINISTRACIÓN DE REPARTIDORES</h3>
+                    <h3 class="ml-2">ADMINISTRACIÓN DE USUARIOS</h3>
                     <hr>
                 </ng-template>
                 <div class="row">
                     <div class="col-6">
-                        <h4>Información del repartidor</h4>
+                        <h4>Información de los usuarios</h4>
                     </div>
                 </div>
                 <br>
@@ -103,32 +103,38 @@
                     <div class="col-12">
                         <form>
                             <div class="form-group row">
-                                <label for="txtNombre" class="col-sm-4 col-form-label">Nombre del repartidor:</label>
+                                <label for="txtNombre" class="col-sm-4 col-form-label">Nombres del usuario:</label>
                                 <div class="col-sm-8">
                                     <input type="text" id="txtNombre" pInputText [(ngModel)] = "repartidorDTO.nombre" [ngModelOptions]="{standalone: true}"> 
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="txtNombreUsuario" class="col-sm-4 col-form-label">Nombre de usuario repartidor:</label>
+                                <label for="txtNombreUsuario" class="col-sm-4 col-form-label">Nombre de usuario:</label>
                                 <div class="col-sm-8">
                                     <input type="text" id="txtNombreUsuario" pInputText [(ngModel)] = "repartidorDTO.nombreUsuario" [ngModelOptions]="{standalone: true}">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="txtEmail" class="col-sm-4 col-form-label">Email del repartidor:</label>
+                                <label for="txtEmail" class="col-sm-4 col-form-label">Correo del usuario:</label>
                                 <div class="col-sm-8">
-                                    <input type="email" id="txtEmail" pInputText [(ngModel)] = "repartidorDTO.email" [ngModelOptions]="{standalone: true}">
+                                    <input style="width: 60%" type="email" id="txtEmail" pInputText [(ngModel)] = "repartidorDTO.email" [ngModelOptions]="{standalone: true}">
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="txtDireccion" class="col-sm-4 col-form-label">Dirección del repartidor:</label>
+                                <label for="txtDireccion" class="col-sm-4 col-form-label">Dirección del usuario:</label>
                                 <div class="col-sm-8">
                                     <input type="text" id="txtDireccion" pInputText [(ngModel)] = "repartidorDTO.direccion" [ngModelOptions]="{standalone: true}">
                                 </div>
-                            </div>                            
+                            </div>
+                            <div class="form-group row">
+                                <label for="txtStock" class="col-sm-4 col-form-label">Rol:</label>
+                                <div class="col-sm-8">
+                                    <p-dropdown [options]="roles" [(ngModel)]="selectedRol" optionLabel="nombre" optionValue="nombre" placeholder="Seleccione..." [ngModelOptions]="{standalone: true}"></p-dropdown>
+                                </div>
+                            </div>                      
                             <div class="form-group row">
                                 <div class="col-sm-8">
-                                    <button class="mr-sm-2 p-button-warning" pButton type="button" iconPos="left" label="Guardar repartidor" (click)="guardarRepartidor()"></button>
+                                    <button class="mr-sm-2 p-button-warning" pButton type="button" iconPos="left" label="Guardar repartidor" (click)="guardarUsuario()"></button>
                                 </div>
                             </div>
                         </form>
@@ -136,7 +142,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <h4>Lista de repartidores</h4>
+                        <h4>Lista de usuarios</h4>
                     </div>
                 </div>
                 <div class="row">
@@ -171,3 +177,4 @@
         </div>
     </div>
 </div>
+<p-toast position="top-right"></p-toast>

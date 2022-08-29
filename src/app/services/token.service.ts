@@ -39,6 +39,20 @@ export class TokenService {
     }
   }
 
+  public getUserNameByToken(): string {
+    if (!this.isLogger)
+      return "user";
+    else {
+      const token = this.getToken();
+      const payload = token?.split('.')[1] as string;
+      const payloadDecoded = atob(payload);
+      const values = JSON.parse(payloadDecoded);
+      const username = values.username;
+      return username;
+    }
+  }
+
+
   public isAdmin(): boolean {
     if (!this.isLogger)
       return false;

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { ProveedorDto } from 'src/app/modelos/ProveedorDTO';
 import { RepartidorDto } from 'src/app/modelos/Repartidor';
 import { AuthService } from 'src/app/services/auth.service';
@@ -21,9 +22,13 @@ export class ProveedoresRepartidoresComponent implements OnInit {
 
   selectedProveedor: ProveedorDto;
 
+  roles: any[] = [{ id: 1, nombre: "admin" }, { id: 2, nombre: "user" }, { id: 2, nombre: "delivery" }];
+  selectedRol?: string;
+
   constructor(private proveedorService: ProveedorService,
     private authService: AuthService,
-    private deliveryService: DeliveryService) { }
+    private deliveryService: DeliveryService,
+    private messageService: MessageService,) { }
 
   ngOnInit(): void {
     this.getProveedores();
@@ -38,11 +43,12 @@ export class ProveedoresRepartidoresComponent implements OnInit {
 
     if (this.proveedorDTO.nombre === '' || this.proveedorDTO.correo === '' || this.proveedorDTO.telefono === '' ||
       this.proveedorDTO.nombre === undefined || this.proveedorDTO.correo === undefined || this.proveedorDTO.telefono === undefined) {
-      alert("Debe ingresar los datos del proveedor");
+      //alert("Debe ingresar los datos del proveedor");
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe ingresar los datos del proveedor.' });
       return;
     }
     this.proveedorService.guardarProveedor(this.proveedorDTO).subscribe(data => {
-      alert("Proveedor guardado con éxito");
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Proveedor guardado con éxito.' });
       this.proveedorDTO = {};
       this.selectedEstado = '';
       this.getProveedores();
@@ -55,19 +61,21 @@ export class ProveedoresRepartidoresComponent implements OnInit {
     })
   }
 
-  guardarRepartidor() {
-    this.repartidorDTO.roles = ['delivery'];
+  guardarUsuario() {
+    this.repartidorDTO.roles = [this.selectedRol as string];
     this.repartidorDTO.password = '1234';
+    console.log(this.repartidorDTO);
     this.authService.nuevo(this.repartidorDTO).subscribe(
       data => {
         console.log('ENTRA POR DATA ' + data)
       },
       err => {
         if (err.status === 400)
-          alert(err.error);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error en registrar al usuario.' });
         else {
-          alert('Delivery registrado con éxito!');
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Usuario creado exitosamente.' });
           this.repartidorDTO = {};
+          this.selectedRol = '';
         }
       }
     );
@@ -76,6 +84,7 @@ export class ProveedoresRepartidoresComponent implements OnInit {
   getRepartidores() {
     this.deliveryService.getRepartidores().subscribe(data => {
       this.repartidores = data;
+      console.log(this.repartidores);
     })
   }
 

@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { CarritoDto } from 'src/app/modelos/carrito';
 import { LoginUsuario } from 'src/app/modelos/login-usuario';
 import { NuevoUsuario } from 'src/app/modelos/nuevo-usuario';
 import { AuthService } from 'src/app/services/auth.service';
+import { TiendaService } from 'src/app/services/tienda.service';
 import { TokenService } from 'src/app/services/token.service';
 
 @Component({
@@ -30,10 +33,16 @@ export class InicioComponent implements OnInit {
   txtApellido: string = '';
   nuevoUsuario: NuevoUsuario = {};
 
+  addCarrito: CarritoDto[];
+
+  totalCarrito: number = 0;
+
   constructor(
     private tokenService: TokenService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService,
+    private tiendaService: TiendaService
   ) { }
 
   ngOnInit(): void {
@@ -49,7 +58,7 @@ export class InicioComponent implements OnInit {
 
   onLogin() {
     if (this.usernameText === undefined || this.passwordText === undefined || this.usernameText === "" || this.passwordText === "") {
-      alert("Debe ingresar las credenciales");
+      this.messageService.add({ key: 'myKey1', severity: 'info', summary: 'Información', detail: 'Debe ingresar las credenciales.' });
     } else {
       this.loginUsuario = new LoginUsuario(this.usernameText as string, this.passwordText as string);
 
@@ -63,7 +72,7 @@ export class InicioComponent implements OnInit {
           window.location.replace('/');
         },
         err => {
-          alert("Usuario y/o contraseña incorrecta");
+          this.messageService.add({ key: 'myKey1', severity: 'error', summary: 'Error', detail: 'Usuario y/o contraseña incorrecta.' });
         }
       );
     }
@@ -77,11 +86,10 @@ export class InicioComponent implements OnInit {
         console.log('ENTRA POR DATA ' + data)
       },
       err => {
-        //console.log(err)
         if (err.status === 400)
-          alert(err.error);
+          console.log(err.error);
         else {
-          alert('Usuario registrado con éxito, por favor inicie sesión con sus credenciales.');
+          this.messageService.add({ key: 'myKey1', severity: 'success', summary: 'Success', detail: 'Usuario registrado con éxito, por favor inicie sesión con sus credenciales.' });
           this.nuevoUsuario = {};
           this.txtNombre = '';
           this.txtApellido = '';
@@ -91,6 +99,73 @@ export class InicioComponent implements OnInit {
     );
   }
 
+  abrirCarrito() {
+    this.displayStore = true;
+    this.llenarCarrito();
+  }
+
+  llenarCarrito() {
+    this.totalCarrito = 0;
+    if (this.tokenService.isLogger()) {
+      this.tiendaService.getCarritoByUsername(this.tokenService.getUserNameByToken()).subscribe(data => {
+        this.addCarrito = data;
+
+        for (const d of (this.addCarrito as any)) {
+          let precio = d.precio as number * d.cantidad;
+          console.log(precio);
+          this.totalCarrito += precio;
+        }
+      });
+    }
+  }
+
+  upCantidad(carrito: CarritoDto) {
+    for (const d of (this.addCarrito as any)) {
+      if (d.id === carrito.id) {
+        d.cantidad++;
+        let precio = d.precio as number;
+        this.totalCarrito += precio;
+      }
+    }
+  }
+
+  downCantidad(carrito: CarritoDto) {
+    for (const d of (this.addCarrito as any)) {
+      if (d.id === carrito.id)
+        if (d.cantidad > 1) {
+          d.cantidad--;
+          let precio = d.precio as number;
+          this.totalCarrito -= precio;
+        }
+    }
+  }
+
+  eliminarItem(carrito: CarritoDto | undefined) {
+    let iditem = carrito?.id;
+    this.tiendaService.deleteCarritoItem(iditem as number).subscribe(data => {
+      this.llenarCarrito();
+    });
+  }
+
+  limpiarCarrito() {
+    this.tiendaService.deleteCarrito().subscribe(data => {
+      console.log(data)
+      this.addCarrito = [];
+      this.totalCarrito = 0;
+    })
+  }
+
+  actualizarCarrito() {
+    //[routerLink]="['tienda/pagar']"
+    //console.log(this.addCarrito);
+    this.addCarrito.map(x => {
+      this.tiendaService.guardarCarrito(x).subscribe(data => {
+        console.log(x);
+      });
+    });
+    //this.router.navigate(['tienda/pagar']);
+    window.location.replace('tienda/pagar')
+  }
 
   logOut() {
     this.tokenService.logOut();
