@@ -8,6 +8,7 @@ import { InicioComponent } from './componentes/inicio/inicio.component';
 import { NosotrosComponent } from './componentes/nosotros/nosotros.component';
 import { OrdenDetalleComponent } from './componentes/orden-detalle/orden-detalle.component';
 import { RepartidorComponent } from './componentes/repartidor/repartidor.component';
+import { ReportesComponent } from './componentes/reportes/reportes.component';
 import { TiendaComponent } from './componentes/tienda/tienda.component';
 import { ProdGuardService } from './guards/prod-guard.service';
 import { PagarComponent } from './tienda/pagar/pagar.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'repartidor/ordenes/orden/:id', component: OrdenDetalleComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'delivery'] } },
   { path: 'tienda/pagar', component: PagarComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user'] } },
   { path: 'admin/productos-categorias', component: ProductoCategoriaComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin'] } },
+  { path: 'admin/reportes', component: ReportesComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin'] } },
   { path: 'admin/proveedores-repartidores', component: ProveedoresRepartidoresComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin'] } },
 ];
 

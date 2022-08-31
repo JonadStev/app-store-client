@@ -34,6 +34,7 @@ import { MessageService } from 'primeng/api';
 import { PagarComponent } from './tienda/pagar/pagar.component';
 import { RepartidorComponent } from './componentes/repartidor/repartidor.component';
 import { OrdenDetalleComponent } from './componentes/orden-detalle/orden-detalle.component';
+import { ReportesComponent } from './componentes/reportes/reportes.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { OrdenDetalleComponent } from './componentes/orden-detalle/orden-detalle
     PagarComponent,
     RepartidorComponent,
     OrdenDetalleComponent,
+    ReportesComponent,
   ],
   imports: [
     FormsModule,
