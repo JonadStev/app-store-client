@@ -64,12 +64,15 @@ export class InicioComponent implements OnInit {
 
       this.authService.login(this.loginUsuario).subscribe(
         data => {
-          console.log("Token " + data.token as string);
-          this.tokenService.setToken(data.token as string);
-          this.isLogged = true;
-          this.displayLogin = false;
-          this.usuarioLogeado = this.tokenService.getUserName() as string;
-          window.location.replace('/');
+          if (data.token as string === 'NO_VALIDO') {
+            this.messageService.add({ key: 'myKey1', severity: 'error', summary: 'Error', detail: 'Su usuario no se encuentra activo.' });
+          } else {
+            this.tokenService.setToken(data.token as string);
+            this.isLogged = true;
+            this.displayLogin = false;
+            this.usuarioLogeado = this.tokenService.getUserName() as string;
+            window.location.replace('/');
+          }
         },
         err => {
           this.messageService.add({ key: 'myKey1', severity: 'error', summary: 'Error', detail: 'Usuario y/o contraseña incorrecta.' });
@@ -81,6 +84,7 @@ export class InicioComponent implements OnInit {
   registrar() {
     this.nuevoUsuario.nombre = this.txtNombre + ' ' + this.txtApellido;
     this.nuevoUsuario.roles = ['user'];
+    this.nuevoUsuario.estado = 'ACTIVO';
 
     if (this.nuevoUsuario.nombre === '' || this.nuevoUsuario.nombre === undefined ||
       this.nuevoUsuario.direccion === '' || this.nuevoUsuario.direccion === undefined ||

@@ -19,11 +19,14 @@ export class ProveedoresRepartidoresComponent implements OnInit {
   repartidores: RepartidorDto[];
   estados: any[] = [{ id: 1, nombreEstado: 'ACTIVO' }, { id: 2, nombreEstado: 'INACTIVO' }];
   selectedEstado?: string;
+  selectedEstadoUsuario?: string;;
 
   selectedProveedor: ProveedorDto;
 
   roles: any[] = [{ id: 1, nombre: "admin" }, { id: 2, nombre: "user" }, { id: 2, nombre: "delivery" }];
   selectedRol?: string;
+
+  idEdit: boolean = false;
 
   constructor(private proveedorService: ProveedorService,
     private authService: AuthService,
@@ -64,7 +67,16 @@ export class ProveedoresRepartidoresComponent implements OnInit {
   guardarUsuario() {
     this.repartidorDTO.roles = [this.selectedRol as string];
     this.repartidorDTO.password = '1234';
-    console.log(this.repartidorDTO);
+    this.repartidorDTO.estado = this.selectedEstadoUsuario;
+    if (this.repartidorDTO.nombre === '' || this.repartidorDTO.nombre === undefined ||
+      this.repartidorDTO.nombreUsuario === '' || this.repartidorDTO.nombreUsuario === undefined ||
+      this.repartidorDTO.email === '' || this.repartidorDTO.email === undefined ||
+      this.repartidorDTO.direccion === '' || this.repartidorDTO.direccion === undefined ||
+      this.selectedRol === '' || this.selectedRol === null || this.selectedRol === undefined ||
+      this.selectedEstadoUsuario === '' || this.selectedEstadoUsuario === null || this.selectedEstadoUsuario === undefined) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe ingresar los datos del usuario.' });
+      return;
+    }
     this.authService.nuevo(this.repartidorDTO).subscribe(
       data => {
         console.log('ENTRA POR DATA ' + data)
@@ -76,6 +88,7 @@ export class ProveedoresRepartidoresComponent implements OnInit {
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Usuario creado exitosamente.' });
           this.repartidorDTO = {};
           this.selectedRol = '';
+          this.selectedEstado = '';
         }
       }
     );
@@ -84,7 +97,6 @@ export class ProveedoresRepartidoresComponent implements OnInit {
   getRepartidores() {
     this.deliveryService.getRepartidores().subscribe(data => {
       this.repartidores = data;
-      console.log(this.repartidores);
     })
   }
 
@@ -97,5 +109,26 @@ export class ProveedoresRepartidoresComponent implements OnInit {
     console.log(event.data);
   }
 
+  onRowSelectUser(event: any) {
+    this.repartidorDTO = event.data;
+    this.selectedEstadoUsuario = event.data.estado;
+    console.log(this.repartidorDTO);
+    if (this.repartidorDTO.roles?.length === 3) {
+      this.selectedRol = 'admin';
+    } else {
+      for (const d of (this.repartidorDTO.roles as any)) {
+        if (d.rolNombre === 'ROLE_USER')
+          this.selectedRol = 'user';
+        else
+          this.selectedRol = 'delivery';
+      }
+    }
+    this.idEdit = true;
+  }
+
+  onRowUnselectUser(event: any) {
+    this.repartidorDTO = {};
+    this.idEdit = false;
+  }
 
 }

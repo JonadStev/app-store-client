@@ -5,5 +5,6 @@ export interface RepartidorDto {
     email?: string;
     password?: string;
     roles?: string[];
-    direccion?: string
+    direccion?: string;
+    estado?: string;
 }
