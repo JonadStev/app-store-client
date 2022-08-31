@@ -18,4 +18,12 @@ export class ReportesService {
     return this.http.get<ReporteVentasDto[]>(this.adminUrl + 'ventas');
   }
 
+  public getReporteVentasByFecha(desde: string, hasta: string): Observable<ReporteVentasDto[]> {
+    return this.http.get<ReporteVentasDto[]>(this.adminUrl + 'ventasPorFecha?fechaDesde=' + desde + '&fechaHasta=' + hasta);
+  }
+
+  public getReporteOrdenCompra(idOrden: string): Observable<ReporteVentasDto[]> {
+    return this.http.get<ReporteVentasDto[]>(this.tiendaUrl + 'reporteOrdenCompra/' + idOrden);
+  }
+
 }

@@ -1,0 +1,136 @@
+<div class="container" style="margin-top: 120px;">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <p-card>
+                <ng-template pTemplate="header">
+                    <h3 class="ml-2">APLICAR DESCUENTO A PRODUCTOS</h3>
+                    <hr>
+                </ng-template>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="p-fluid grid">
+                            <div class="field col-12 md:col-12 mt-4">
+                              <span class="p-float-label">
+                                  <input type="text" id="txtCategoria" pInputText [(ngModel)] = "descuento"> 
+                                  <label for="txtCategoria">%Descuento</label>
+                              </span>
+                            </div>
+                            <div class="field col-12 md:col-12 mt-4">
+                              <button class="mr-sm-2 p-button-warning" pButton type="button" iconPos="left" label="Aplicar descuento" (click)="aplicarDescuento()"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <h4>Lista de productos</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p-table [value]="productos" selectionMode="single" dataKey="id"
+                                (onRowSelect)="onRowSelectProduct($event)" (onRowUnselect)="onRowUnselect($event)"
+                                [paginator]="true" [rows]="5" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos" [rowsPerPageOptions]="[5,10,15]">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Precio</th>
+                                        <th>Stock</th>
+                                        <th>estado</th>
+                                        <th>Categoria</th>
+                                        <th>Proveedor</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-producto>
+                                    <tr [pSelectableRow]="producto">
+                                        <td>{{producto.id}}</td>
+                                        <td>{{producto.nombre}}</td>
+                                        <td>{{producto.descripcion}}</td>
+                                        <td>{{producto.precio}}</td>
+                                        <td>{{producto.stock}}</td>
+                                        <td>{{producto.estado}}</td>
+                                        <td>{{producto.categoria.nombreCategoria}}</td>
+                                        <td>{{producto.proveedor.nombre}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <p-card>
+                <ng-template pTemplate="header">
+                    <h3 class="ml-2">PROMOCIONES REGISTRADAS</h3>
+                    <hr>
+                </ng-template>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="p-fluid grid">
+                            <div class="field col-12 md:col-12 mt-4">
+                              <span class="p-float-label">
+                                  <input type="text" id="txtCategoria" pInputText [(ngModel)] = "descuentoUpdate">  
+                                  <label for="txtCategoria">%Descuento</label>
+                              </span>
+                            </div>
+                            <div class="field col-12 md:col-12 mt-4">
+                                <p-dropdown [options]="estados" [(ngModel)]="promocionUpdate.estado" optionLabel="nombreEstado" optionValue="nombreEstado" placeholder="Seleccione el estado" [ngModelOptions]="{standalone: true}"></p-dropdown>
+                            </div> 
+                            <div class="field col-12 md:col-12 mt-4">
+                              <button class="mr-sm-2 p-button-warning" pButton type="button" iconPos="left" label="Modificar descuento" (click)="aplicarDescuentoActualizacion()"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-12">
+                        <h4>Lista de productos con descuentos</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p-table [value]="promociones" selectionMode="single" dataKey="id"
+                        (onRowSelect)="onRowSelectProductDescuento($event)" (onRowUnselect)="onRowUnselectDescuento($event)"
+                                [paginator]="true" [rows]="5" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos" [rowsPerPageOptions]="[5,10,15]">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Id producto</th>
+                                        <th>Nombre</th>
+                                        <th>Precio inicial</th>
+                                        <th>% Descuento</th>
+                                        <th>Precio con descuento</th>
+                                        <th>estado</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-promocion>
+                                    <tr [pSelectableRow]="promocion">
+                                        <td>{{promocion.id}}</td>
+                                        <td>{{promocion.idProducto}}</td>
+                                        <td>{{promocion.nombreProducto}}</td>
+                                        <td>{{promocion.precio}}</td>
+                                        <td>{{promocion.descuento}}</td>
+                                        <td>{{promocion.precioDescuento}}</td>
+                                        <td>{{promocion.estado}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+    </div>
+
+</div>
+<p-toast position="top-right"></p-toast>

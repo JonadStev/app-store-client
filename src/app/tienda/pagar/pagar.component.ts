@@ -4,8 +4,18 @@ import { ActivatedRoute } from '@angular/router';
 import { Message, MessageService } from 'primeng/api';
 import { CarritoDto } from 'src/app/modelos/carrito';
 import { OrdenDto } from 'src/app/modelos/orden';
+import { ReporteVentasDto } from 'src/app/modelos/reporteVentas';
+import { ReportesService } from 'src/app/services/reportes.service';
 import { TiendaService } from 'src/app/services/tienda.service';
 import { TokenService } from 'src/app/services/token.service';
+import jsPDF from 'jspdf';
+import { UserOptions } from 'jspdf-autotable';
+
+interface jsPDFCustom extends jsPDF {
+  autoTable: (options: UserOptions) => void;
+}
+
+const doc = new jsPDF() as jsPDFCustom;
 
 @Component({
   selector: 'app-pagar',
@@ -15,6 +25,7 @@ import { TokenService } from 'src/app/services/token.service';
 export class PagarComponent implements OnInit {
 
   addCarrito: CarritoDto[];
+  reporteOrdenCompra: ReporteVentasDto[];
 
   totalCarrito: number = 0;
 
@@ -32,10 +43,13 @@ export class PagarComponent implements OnInit {
   msgs: Message[];
   direccionEfectivo: string;
 
+  sizeCarrito: number;
+  strCarritoSize: string = '';
 
   constructor(private tokenService: TokenService,
     private messageService: MessageService,
-    private tiendaService: TiendaService) { }
+    private tiendaService: TiendaService,
+    private reporteService: ReportesService) { }
 
   ngOnInit(): void {
     this.llenarCarrito();
@@ -72,6 +86,8 @@ export class PagarComponent implements OnInit {
     if (this.tokenService.isLogger()) {
       this.tiendaService.getCarritoByUsername(this.tokenService.getUserNameByToken()).subscribe(data => {
         this.addCarrito = data;
+        this.strCarritoSize = data.length.toString();
+        console.log(data.length.toString());
         for (const d of (this.addCarrito as any)) {
           let precio = d.precio as number * d.cantidad;
           this.totalCarrito += precio;
@@ -92,10 +108,14 @@ export class PagarComponent implements OnInit {
 
   pagoCredito() {
     this.llenarOrden();
-    //console.log(this.orden);
+    if (this.strCarritoSize === '0' || this.strCarritoSize === '') {
+      this.messageService.add({ severity: 'info', summary: 'Información', detail: 'No se han encontrado productos en el carrito.' });
+      return;
+    }
     this.tiendaService.guardarOrden(this.orden).subscribe(data => {
       console.log(data);
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Se ha generado la ORDEN DE COMPRA NO. ' + data.ORDEN_COMPRA });
+      this.generarOrdenCompra(data.ORDEN_COMPRA, this.totalCarrito);
       this.limpiarPago();
       this.llenarCarrito();
     });
@@ -104,12 +124,44 @@ export class PagarComponent implements OnInit {
 
   pagoEfectivo() {
     this.llenarOrden();
+    if (this.strCarritoSize === '0' || this.strCarritoSize === '') {
+      this.messageService.add({ severity: 'info', summary: 'Información', detail: 'No se han encontrado productos en el carrito.' });
+      return;
+    }
     this.tiendaService.guardarOrden(this.orden).subscribe(data => {
       console.log(data);
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Se ha generado la ORDEN DE COMPRA NO. ' + data.ORDEN_COMPRA });
+      this.generarOrdenCompra(data.ORDEN_COMPRA, this.totalCarrito);
       this.limpiarPago();
       this.llenarCarrito();
     });
+  }
+
+  generarOrdenCompra(idOrden: string, totalCarrito: number) {
+    this.reporteOrdenCompra = [];
+    this.reporteService.getReporteOrdenCompra(idOrden).subscribe(data => {
+      this.reporteOrdenCompra = data;
+      this.generarReporte(idOrden, totalCarrito);
+    });
+  }
+
+  generarReporte(idOrden: string, totalCarrito: number) {
+    const head = [['producto', 'cantidad', 'precio', 'subtotal', 'iva', 'total', 'fecha']];
+    const datos: any[] = [];
+    this.reporteOrdenCompra.map(x => {
+      datos.push([x.producto, x.cantidad, x.precio, x.subtotal, x.iva, x.total, x.fecha]);
+    });
+    doc.text('ORDEN DE COMPRA "AQUI ME QUEDO"', 10, 10);
+    doc.text('No. orden de compra generada: ' + idOrden, 10, 20);
+    doc.text('TOTAL $: ' + totalCarrito, 10, 30);
+    doc.text('DETALLE DE PRODUCTOS', 10, 40);
+    doc.autoTable({
+      head: head,
+      body: datos,
+      startY: 50,
+      didDrawCell: (data) => { },
+    });
+    doc.save('OrdenDeCompra.pdf');
   }
 
 }

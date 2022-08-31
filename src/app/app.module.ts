@@ -26,6 +26,7 @@ import { ToastModule } from 'primeng/toast';
 import { DataViewModule } from 'primeng/dataview';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
+import { CalendarModule } from 'primeng/calendar';
 import { TiendaComponent } from './componentes/tienda/tienda.component';
 import { interceptorProvider } from './interceptors/prod-interceptor.service';
 import { ProductoCategoriaComponent } from './componentes/administrador/producto-categoria/producto-categoria.component';
@@ -35,6 +36,7 @@ import { PagarComponent } from './tienda/pagar/pagar.component';
 import { RepartidorComponent } from './componentes/repartidor/repartidor.component';
 import { OrdenDetalleComponent } from './componentes/orden-detalle/orden-detalle.component';
 import { ReportesComponent } from './componentes/reportes/reportes.component';
+import { PromocionesComponent } from './componentes/promociones/promociones.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,7 @@ import { ReportesComponent } from './componentes/reportes/reportes.component';
     RepartidorComponent,
     OrdenDetalleComponent,
     ReportesComponent,
+    PromocionesComponent,
   ],
   imports: [
     FormsModule,
@@ -73,7 +76,8 @@ import { ReportesComponent } from './componentes/reportes/reportes.component';
     ToastModule,
     DataViewModule,
     MessagesModule,
-    MessageModule
+    MessageModule,
+    CalendarModule
   ],
   providers: [interceptorProvider, MessageService],
   bootstrap: [AppComponent]

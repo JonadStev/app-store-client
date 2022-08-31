@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { CarritoDto } from '../modelos/carrito';
 import { OrdenDto } from '../modelos/orden';
 import { OrdenDetalleDto, OrdenEntregaDto } from '../modelos/ordenEntrega';
+import { ProductoDto } from '../modelos/productos';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +55,10 @@ export class TiendaService {
 
   public getOrdenesEntregaAsignadas(usuarioRepartidor: string): Observable<OrdenEntregaDto[]> {
     return this.http.get<OrdenEntregaDto[]>(this.tiendaUrl + 'ordenes/' + usuarioRepartidor);
+  }
+
+  public getProductosPromocion(): Observable<ProductoDto[]> {
+    return this.http.get<ProductoDto[]>(this.tiendaUrl + 'productosByPromociones');
   }
 
 }

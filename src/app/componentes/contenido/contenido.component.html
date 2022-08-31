@@ -32,9 +32,7 @@
                                     <h6 class="mt-0 mb-3">${{product.price}}</h6>
                                     <span [class]="'product-badge status-'+product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
                                     <div class="car-buttons mt-5">
-                                        <p-button type="button" styleClass="p-button p-button-rounded mr-2" icon="pi pi-search"></p-button>
-                                        <p-button type="button" styleClass="p-button-success p-button-rounded mr-2" icon="pi pi-star-fill"></p-button>
-                                        <p-button type="button" styleClass="p-button-help p-button-rounded" icon="pi pi-cog"></p-button>
+                                        <p-button type="button" styleClass="p-button p-button-rounded mr-2" icon="pi pi-shopping-cart"></p-button>
                                     </div>
                                 </div>
                             </div>
@@ -50,12 +48,12 @@
     <div class="container mt-4">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12" style="text-align: center; margin-top: 12em;">
-                <h1>Productos en oferta</h1>
+                <h1>Encuentra nuestras mejores ofertas para ti.</h1>
                 <br>
-                <p>Encuentra tus productos favoritos con las ofertas que más te gustan</p>
+                <p><em><h5>PRODUCTOS AL DESCUENTO CON BAJOS PRECIO!!! </h5></em>Encuentra tus productos favoritos con las ofertas que más te gustan, grandes descuentos y todo por tiempo limitado o hasta agotar stock.</p>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12" style="display: flex; justify-content: center; align-items: center;">
-                <p-carousel [value]="productosMasVendidos" orientation="vertical" [style]="{'max-width':'400px', 'margin-top':'2em' }" verticalViewPortHeight="452px" [numVisible]="1" [numScroll]="1">
+                <p-carousel [value]="productosPromociones" orientation="vertical" [style]="{'max-width':'400px', 'margin-top':'2em' }" verticalViewPortHeight="452px" [numVisible]="1" [numScroll]="1">
                     <ng-template let-product pTemplate="item">
                         <div class="product-item">
                             <div class="product-item-content" style="background-color: #ffff;">
@@ -67,9 +65,7 @@
                                     <h6 class="mt-0 mb-3">${{product.price}}</h6>
                                     <span [class]="'product-badge status-'+product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
                                     <div class="car-buttons mt-5">
-                                        <p-button type="button" styleClass="p-button p-button-rounded mr-2" icon="pi pi-search"></p-button>
-                                        <p-button type="button" styleClass="p-button-success p-button-rounded mr-2" icon="pi pi-star-fill"></p-button>
-                                        <p-button type="button" styleClass="p-button-help p-button-rounded" icon="pi pi-cog"></p-button>
+                                        <p-button type="button" styleClass="p-button p-button-rounded mr-2" icon="pi pi-shopping-cart"></p-button>
                                     </div>
                                 </div>
                             </div>

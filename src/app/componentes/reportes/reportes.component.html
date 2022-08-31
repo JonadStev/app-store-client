@@ -7,6 +7,28 @@
                     <hr>
                 </ng-template>
                 <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-lg-2 col-md-3 col-sm-12">
+                                <label for="basic">Desde: </label>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <p-calendar inputId="basic" [(ngModel)]="fechaDesde"></p-calendar>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-12">
+                                <label for="basic">Hasta: </label>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <p-calendar inputId="basic" [(ngModel)]="fechaHasta"></p-calendar>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-12">
+                                <button class="mr-sm-2 p-button-warning" pButton type="button" iconPos="left" label="Buscar" (click)="getReporteVentasByFecha()"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
                     <div class="col-6">
                         <button class="mr-sm-2 p-button-warning" pButton type="button" iconPos="left" label="ExportarPDF" (click)="exportarPdf()"></button>
                     </div>
@@ -16,8 +38,8 @@
                     <div class="col-12">
                         <div class="card">
                             <p-table [value]="reporteVentas" selectionMode="single" dataKey="id"
-                                [paginator]="true" [rows]="4" [showCurrentPageReport]="true" responsiveLayout="scroll"
-                                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ventas" [rowsPerPageOptions]="[5,10,20]">
+                                [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
+                                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ventas" [rowsPerPageOptions]="[10,15,20]">
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th>Orden</th>
@@ -52,3 +74,4 @@
         </div>
     </div>
 </div>
+<p-toast position="top-right" key="myKey1"></p-toast>

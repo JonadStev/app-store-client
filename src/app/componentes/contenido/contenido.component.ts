@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductoDto } from 'src/app/modelos/productos';
 import { ProductoCategoriaService } from 'src/app/services/producto-categoria.service';
+import { PromocionesService } from 'src/app/services/promociones.service';
+import { TiendaService } from 'src/app/services/tienda.service';
 
 export interface Product {
   name?: string;
@@ -30,6 +33,7 @@ export class ContenidoComponent implements OnInit {
 
   images: any[];
   productosMasVendidos: any[];
+  productosPromociones: any[];
 
   responsiveOptions: any[] = [
     {
@@ -46,13 +50,14 @@ export class ContenidoComponent implements OnInit {
     }
   ];
 
-  constructor(private productService: ProductoCategoriaService) {
+  constructor(private productService: ProductoCategoriaService, private tiendaService: TiendaService) {
 
   }
 
   ngOnInit(): void {
     this.obtenerBanners();
     this.getProductosMasVendidos();
+    this.getPromociones();
   }
 
   obtenerBanners() {
@@ -74,14 +79,28 @@ export class ContenidoComponent implements OnInit {
       this.productosMasVendidos = [];
       for (const d of (data as any)) {
         this.productosMasVendidos.push({
+          id: d.id,
           name: d.nombre,
           price: d.precio,
           inventoryStatus: 'En Stock',
           previewImageSrc: 'data:image/jpg;base64,' + d.picByte
         });
       }
-      console.log(this.productosMasVendidos);
     });
   }
 
+  getPromociones() {
+    this.tiendaService.getProductosPromocion().subscribe(data => {
+      this.productosPromociones = [];
+      for (const d of (data as any)) {
+        this.productosPromociones.push({
+          id: d.id,
+          name: d.nombre,
+          price: d.precio,
+          inventoryStatus: 'En Stock',
+          previewImageSrc: 'data:image/jpg;base64,' + d.picByte
+        });
+      }
+    });
+  }
 }
