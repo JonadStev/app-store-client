@@ -57,10 +57,10 @@ export class RepartidorComponent implements OnInit {
   }
 
   asignar(id: string) {
-    console.log(id);
-    if (id === '' || id === undefined)
+    if (id === '' || id === undefined) {
       this.messageService.add({ key: 'myKey1', severity: 'info', summary: 'Información', detail: 'Debe seleccionar una orden de entrega.' });
-    //console.log(id + " " + this.usuarioRepartidor);
+      return;
+    }
     let httpParams = {
       usuarioRepartidor: this.usuarioRepartidor,
       idOrden: id
@@ -75,8 +75,10 @@ export class RepartidorComponent implements OnInit {
   }
 
   cerrarOrden(idAsignada: string) {
-    if (idAsignada === '' || idAsignada === undefined)
+    if (idAsignada === '' || idAsignada === undefined) {
       this.messageService.add({ key: 'myKey2', severity: 'info', summary: 'Información', detail: 'Debe seleccionar una orden de entrega.' });
+      return;
+    }
     let httpParams = {
       usuarioRepartidor: this.usuarioRepartidor,
       idOrden: idAsignada

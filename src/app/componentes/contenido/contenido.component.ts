@@ -55,6 +55,8 @@ export class ContenidoComponent implements OnInit {
 
   addCar: CarritoDto = {};
 
+  correoNotify: string;
+
   constructor(private productService: ProductoCategoriaService,
     private tiendaService: TiendaService,
     private tokenService: TokenService,
@@ -129,8 +131,15 @@ export class ContenidoComponent implements OnInit {
     } else {
       this.messageService.add({ severity: 'info', summary: 'Información', detail: 'Inicie sesión para agregar los productos al carrito.' });
     }
+  }
 
-
+  notificaciones() {
+    console.log(this.correoNotify);
+    if (this.correoNotify === undefined || this.correoNotify === '') {
+      this.messageService.add({ severity: 'info', summary: 'Información', detail: 'Ingresa tu correo para recibir información' });
+      return;
+    }
+    this.messageService.add({ severity: 'success', summary: 'Gracias', detail: 'Te enviaremos las mejores ofertas de nuestros productos.' });
   }
 
 }

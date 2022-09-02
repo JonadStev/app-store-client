@@ -125,8 +125,8 @@
                     <form action="#">
                         <div class="input-group mb-3">
                             <div class="p-inputgroup">
-                                <input type="text" pInputText placeholder="Correo">   
-                                <button type="button" pButton pRipple icon="pi pi-check-circle" styleClass="p-button-warn" ></button>      
+                                <input type="text" pInputText placeholder="Correo" [(ngModel)] = "correoNotify" [ngModelOptions]="{standalone: true}">   
+                                <button type="button" pButton pRipple icon="pi pi-check-circle" styleClass="p-button-warn" (click)="notificaciones()"></button>      
                             </div>
                         </div>
                     </form>

@@ -149,13 +149,26 @@ export class ProductoCategoriaComponent implements OnInit {
   }
 
   guardarProducto() {
+    if (
+      this.nombreProducto.value === '' || this.nombreProducto.value === undefined || this.nombreProducto === null ||
+      this.descripcionProducto.value === '' || this.descripcionProducto.value === undefined || this.descripcionProducto === null ||
+      this.precioProducto.value === '' || this.precioProducto.value === undefined || this.precioProducto.value === null ||
+      this.stockProducto.value === '' || this.stockProducto.value === undefined || this.stockProducto.value === null ||
+      this.retrievedImage === '' || this.retrievedImage === undefined || this.retrievedImage === null ||
+      this.selectedCategoria === '' || this.selectedCategoria === undefined || this.selectedCategoria === null ||
+      this.selectedProveedor === '' || this.selectedProveedor === undefined || this.selectedProveedor === null ||
+      this.selectedEstadoProducto === '' || this.selectedEstadoProducto === undefined || this.selectedEstadoProducto === null
+    ) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe ingresar la información del producto.' });
+      return;
+    }
     for (const cat of this.categorias) {
       if (cat.id === this.selectedCategoria)
         this.productoDTO.categoria = cat;
     }
 
     for (const prov of this.proveedores) {
-      if (prov.id === this.selectedProveedor)
+      if (prov.id === +this.selectedProveedor)
         this.productoDTO.proveedor = prov;
     }
 
@@ -195,6 +208,13 @@ export class ProductoCategoriaComponent implements OnInit {
   }
 
   guardarBanner() {
+    if (
+      this.nombreBanner.value === '' || this.nombreBanner.value === undefined || this.nombreBanner === null ||
+      this.retrievedBannerImage === '' || this.retrievedBannerImage === undefined || this.retrievedBannerImage === null
+    ) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe llenar la información del banner.' });
+      return;
+    }
     let bannerUpload = {
       descripcion: this.nombreBanner.value
     };
