@@ -65,6 +65,10 @@ export class ProveedoresRepartidoresComponent implements OnInit {
   }
 
   guardarUsuario() {
+    if (this.idEdit) {
+      this.editarUsuario();
+      return;
+    }
     this.repartidorDTO.roles = [this.selectedRol as string];
     this.repartidorDTO.password = '1234';
     this.repartidorDTO.estado = this.selectedEstadoUsuario;
@@ -74,7 +78,7 @@ export class ProveedoresRepartidoresComponent implements OnInit {
       this.repartidorDTO.direccion === '' || this.repartidorDTO.direccion === undefined ||
       this.selectedRol === '' || this.selectedRol === null || this.selectedRol === undefined ||
       this.selectedEstadoUsuario === '' || this.selectedEstadoUsuario === null || this.selectedEstadoUsuario === undefined) {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe ingresar los datos del usuario.' });
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe ingresar todos los datos del usuario.' });
       return;
     }
     this.authService.nuevo(this.repartidorDTO).subscribe(
@@ -85,13 +89,44 @@ export class ProveedoresRepartidoresComponent implements OnInit {
         if (err.status === 400)
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error en registrar al usuario.' });
         else {
+          this.getRepartidores();
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Usuario creado exitosamente.' });
           this.repartidorDTO = {};
           this.selectedRol = '';
-          this.selectedEstado = '';
+          this.selectedEstadoUsuario = '';
         }
       }
     );
+  }
+
+  editarUsuario() {
+    console.log("EDITANDO...");
+    let roles: any = [];
+    if (this.repartidorDTO.nombre === '' || this.repartidorDTO.nombre === undefined || this.repartidorDTO.nombre === null ||
+      this.repartidorDTO.nombreUsuario === '' || this.repartidorDTO.nombreUsuario === undefined || this.repartidorDTO.nombre === null ||
+      this.repartidorDTO.email === '' || this.repartidorDTO.email === undefined || this.repartidorDTO.nombre === null ||
+      this.repartidorDTO.direccion === '' || this.repartidorDTO.direccion === undefined || this.repartidorDTO.direccion === null ||
+      this.selectedRol === '' || this.selectedRol === null || this.selectedRol === undefined ||
+      this.selectedEstadoUsuario === '' || this.selectedEstadoUsuario === null || this.selectedEstadoUsuario === undefined) {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Debe ingresar todos los datos del usuario.' });
+      return;
+    }
+    if (this.selectedRol === 'admin') {
+      roles.push({ id: 1, rolNombre: 'ROLE_ADMIN' }, { id: 2, rolNombre: 'ROLE_USER' }, { id: 3, rolNombre: 'ROLE_DELIVERY' });
+    } else if (this.selectedRol === 'user') {
+      roles.push({ id: 2, rolNombre: 'ROLE_USER' });
+    } else {
+      roles.push({ id: 3, rolNombre: 'ROLE_DELIVERY' });
+    }
+    this.repartidorDTO.estado = this.selectedEstadoUsuario;
+    this.repartidorDTO.roles = roles;
+    this.authService.actualizarUsuario(this.repartidorDTO).subscribe(data => {
+      this.getRepartidores();
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Usuario actualizado.' });
+      this.repartidorDTO = {};
+      this.selectedRol = '';
+      this.selectedEstadoUsuario = '';
+    });
   }
 
   getRepartidores() {
@@ -106,7 +141,8 @@ export class ProveedoresRepartidoresComponent implements OnInit {
   }
 
   onRowUnselect(event: any) {
-    console.log(event.data);
+    this.proveedorDTO = {};
+    this.selectedEstado = '';
   }
 
   onRowSelectUser(event: any) {
@@ -129,6 +165,8 @@ export class ProveedoresRepartidoresComponent implements OnInit {
   onRowUnselectUser(event: any) {
     this.repartidorDTO = {};
     this.idEdit = false;
+    this.selectedEstadoUsuario = '';
+    this.selectedRol = '';
   }
 
 }
