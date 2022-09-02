@@ -23,6 +23,7 @@ export class ProductoCategoriaComponent implements OnInit {
   proveedores: ProveedorDto[];
 
   categorias: any = [];
+  categoriasProducto: any = [];
   productos: any = [];
   banners: BannerDto[];
   totalRecords: number;
@@ -41,6 +42,9 @@ export class ProductoCategoriaComponent implements OnInit {
   selectedSrcImage: string;
 
   estados: any[] = [{ id: 1, nombreEstado: 'ACTIVO' }, { id: 2, nombreEstado: 'INACTIVO' }];
+  estadosProductos: any[] = [{ id: 1, nombreEstado: 'ACTIVO' }, { id: 2, nombreEstado: 'INACTIVO' }];
+  selectedEstadoCategoria?: string;
+  selectedEstadoProducto?: string;
 
   @ViewChild('myInputFile')
   myInputFile: ElementRef;
@@ -71,19 +75,30 @@ export class ProductoCategoriaComponent implements OnInit {
   llenarTablaCategorias() {
     this.productoCategoriaService.getCategorias().subscribe(data => {
       this.categorias = [];
+      this.categoriasProducto = [];
       for (const d of (data as any)) {
         this.categorias.push({
           id: d.id,
-          nombreCategoria: d.nombreCategoria
+          nombreCategoria: d.nombreCategoria,
+          estado: d.estado
         });
+        if (d.estado === 'ACTIVO') {
+          this.categoriasProducto.push({
+            id: d.id,
+            nombreCategoria: d.nombreCategoria,
+            estado: d.estado
+          });
+        }
       }
+
+
+
     });
     this.totalRecords = this.categorias.length;
   }
 
   llenarTablaProductos() {
     this.productoCategoriaService.getProductos().subscribe(data => {
-      console.log(data);
       this.productos = [];
       for (const d of (data as any)) {
         this.productos.push({
@@ -114,10 +129,17 @@ export class ProductoCategoriaComponent implements OnInit {
   }
 
   guardarCategoria() {
+    if (this.categoriaDTO.nombreCategoria === '' || this.categoriaDTO.nombreCategoria === undefined ||
+      this.selectedEstadoCategoria === '' || this.selectedEstadoCategoria === undefined) {
+      this.messageService.add({ severity: 'info', summary: 'Información', detail: 'Debe ingresar el nombre y estado de la categoria.' });
+      return;
+    }
+    this.categoriaDTO.estado = this.selectedEstadoCategoria;
     this.productoCategoriaService.guardarCategoria(this.categoriaDTO).subscribe(
       data => {
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'La categoria ha sido guardada con éxito.' });
         this.categoriaDTO = {};
+        this.selectedEstadoCategoria = '';
         this.llenarTablaCategorias();
       },
       err => {
@@ -143,9 +165,8 @@ export class ProductoCategoriaComponent implements OnInit {
       descripcion: this.descripcionProducto.value,
       precio: this.precioProducto.value,
       stock: this.stockProducto.value,
-      //srcImage: (this.selectedSrcImage !== '' || this.selectedSrcImage !== undefined) ? this.selectedSrcImage : '',
-      srcImage: '',
-      estado: 'ACTIVO',
+      srcImage: this.selectedSrcImage,
+      estado: this.selectedEstadoProducto,
       categoria: {
         id: this.productoDTO.categoria?.id,
         nombreCategoria: this.productoDTO.categoria?.nombreCategoria
@@ -158,7 +179,6 @@ export class ProductoCategoriaComponent implements OnInit {
         estado: this.productoDTO.proveedor?.estado
       }
     }
-
     //Añadimos a nuestro objeto formData nuestro objeto convertido a String
     this.formData.append("producto", JSON.stringify(productoUpload));
 
@@ -188,6 +208,7 @@ export class ProductoCategoriaComponent implements OnInit {
 
   limpiarFormularioProducto() {
     this.productoDTO = {};
+    this.selectedIdProducto = '';
     this.formData = new FormData();
     this.nombreProducto.reset();
     this.descripcionProducto.reset();
@@ -197,6 +218,8 @@ export class ProductoCategoriaComponent implements OnInit {
     this.retrievedImage = null;
     this.selectedCategoria = '';
     this.selectedProveedor = '';
+    this.selectedSrcImage = '';
+    this.selectedEstadoProducto = '';
   }
 
   limpiarFomularioBanner() {
@@ -207,6 +230,8 @@ export class ProductoCategoriaComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
+    this.selectedSrcImage = "SELECTED_IMG";
+    this.retrievedImage = null;
     this.formData.delete("fichero");
     const file: File = event.target.files[0];
     const fr = new FileReader();
@@ -242,6 +267,12 @@ export class ProductoCategoriaComponent implements OnInit {
 
   onRowSelect(event: any) {
     this.categoriaDTO = event.data;
+    this.selectedEstadoCategoria = event.data.estado;
+  }
+
+  onRowUnselectCategoria(event: any) {
+    this.categoriaDTO = {};
+    this.selectedEstadoCategoria = '';
   }
 
   onRowUnselect(event: any) {
@@ -251,7 +282,7 @@ export class ProductoCategoriaComponent implements OnInit {
   onRowSelectProduct(event: any) {
     this.formData.delete("fichero");
     this.selectedIdProducto = event.data.id;
-    //this.selectedSrcImage = event.data.srcImage;
+    this.selectedSrcImage = "NOT_SELECTED_IMG";
     this.nombreProducto.setValue(event.data.nombre);
     this.descripcionProducto.setValue(event.data.descripcion);
     this.precioProducto.setValue(event.data.precio);
@@ -259,7 +290,7 @@ export class ProductoCategoriaComponent implements OnInit {
     this.getProductoImage(event.data.id)
     this.selectedCategoria = event.data.categoria.id;
     this.selectedProveedor = event.data.proveedor.id;
-
+    this.selectedEstadoProducto = event.data.estado;
     var blob = new Blob([this.base64Data], { type: 'image/jpg' });
     const file: File = new File([blob], 'imageFileName.jpg');
     this.formData.append("fichero", file);

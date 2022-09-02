@@ -7,7 +7,8 @@ import { ProductoDto } from '../modelos/productos';
 
 export interface CategoriaDto {
   id?: number,
-  nombreCategoria?: string
+  nombreCategoria?: string,
+  estado?: string
 };
 
 export interface CategoriaData {
@@ -65,6 +66,14 @@ export class ProductoCategoriaService {
   // TIENDA
   public getProductosTienda(): Observable<ProductoDto[]> {
     return this.httpClient.get<ProductoDto[]>(this.tiendaUrl + 'productos');
+  }
+
+  public getProductosByLikeNombre(nombre: string): Observable<ProductoDto[]> {
+    return this.httpClient.get<ProductoDto[]>(this.tiendaUrl + 'productos/findByLikeName/' + nombre);
+  }
+
+  public getProductosfindByCategory(categoria: string): Observable<ProductoDto[]> {
+    return this.httpClient.get<ProductoDto[]>(this.tiendaUrl + 'productos/findByCategory/' + categoria);
   }
 
   public getProductosMasVendidos(): Observable<ProductoDto[]> {

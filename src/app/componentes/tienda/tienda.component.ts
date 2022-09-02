@@ -15,7 +15,7 @@ export class TiendaComponent implements OnInit {
 
 
   categorias: CategoriaDto[];
-  selectedCategoria?: string;
+  selectedCategoria: string;
   productos: ProductoDto[];
 
   sortOrder: number;
@@ -23,6 +23,8 @@ export class TiendaComponent implements OnInit {
   sortField: string;
 
   addCar: CarritoDto = {};
+
+  nombreProductoBuscar: string;
 
   sortOptions: any[] = [
     { label: 'Price High to Low', value: '!price' },
@@ -49,6 +51,38 @@ export class TiendaComponent implements OnInit {
     this.productoCategoriaService.getProductosTienda().subscribe(data => {
       this.productos = data;
     });
+  }
+
+  buscarProducto() {
+    if (this.nombreProductoBuscar === undefined || this.nombreProductoBuscar === '') {
+      this.messageService.add({ severity: 'info', summary: 'Información', detail: 'Ingrese el nombre del producto que desea buscar.' });
+      return;
+    }
+    this.productoCategoriaService.getProductosByLikeNombre(this.nombreProductoBuscar).subscribe(data => {
+      if (data.length === 0) {
+        this.messageService.add({ severity: 'info', summary: 'Información', detail: 'No se han encontrado productos con el nombre ' + this.nombreProductoBuscar });
+        this.llenarProductos();
+      } else {
+        this.productos = data;
+      }
+      this.nombreProductoBuscar = '';
+    });
+  }
+
+  buscarProductoPorCategoria() {
+    this.productoCategoriaService.getProductosfindByCategory(this.selectedCategoria).subscribe(data => {
+      if (data.length === 0) {
+        this.messageService.add({ severity: 'info', summary: 'Información', detail: 'No se han encontrado productos con la categoria seleccionada.' });
+        this.llenarProductos();
+      } else {
+        this.productos = data;
+      }
+    })
+  }
+
+  limpiarFilto() {
+    this.selectedCategoria = '';
+    this.llenarProductos();
   }
 
   addToCar(producto: ProductoDto) {

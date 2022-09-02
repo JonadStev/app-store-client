@@ -28,8 +28,8 @@ export class TiendaService {
     return this.http.delete<any>(this.tiendaUrl + 'delete/' + id);
   }
 
-  public deleteCarrito(): Observable<any> {
-    return this.http.delete<any>(this.tiendaUrl + 'deleteAll');
+  public deleteCarrito(userName: string): Observable<any> {
+    return this.http.delete<any>(this.tiendaUrl + 'deleteAll/' + userName);
   }
 
   //saveOrden

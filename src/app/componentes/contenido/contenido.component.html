@@ -32,7 +32,7 @@
                                     <h6 class="mt-0 mb-3">${{product.price}}</h6>
                                     <span [class]="'product-badge status-'+product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
                                     <div class="car-buttons mt-5">
-                                        <p-button type="button" styleClass="p-button p-button-rounded mr-2" icon="pi pi-shopping-cart"></p-button>
+                                        <p-button type="button" styleClass="p-button p-button-rounded mr-2" icon="pi pi-shopping-cart" (click)="addToCar(product)"></p-button>
                                     </div>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                                     <h6 class="mt-0 mb-3">${{product.price}}</h6>
                                     <span [class]="'product-badge status-'+product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
                                     <div class="car-buttons mt-5">
-                                        <p-button type="button" styleClass="p-button p-button-rounded mr-2" icon="pi pi-shopping-cart"></p-button>
+                                        <p-button type="button" styleClass="p-button p-button-rounded mr-2" icon="pi pi-shopping-cart" (click)="addToCar(product)"></p-button>
                                     </div>
                                 </div>
                             </div>
@@ -135,3 +135,4 @@
         </div>
     </footer>
 </div>
+<p-toast position="top-center"></p-toast>

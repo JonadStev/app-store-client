@@ -36,6 +36,7 @@ export class InicioComponent implements OnInit {
   addCarrito: CarritoDto[];
 
   totalCarrito: number = 0;
+  userCar: string;
 
   constructor(
     private tokenService: TokenService,
@@ -50,6 +51,7 @@ export class InicioComponent implements OnInit {
     if (this.isLogged) {
       if (this.tokenService.getUserName() != "user") {
         this.usuarioLogeado = this.tokenService.getUserName() as string;
+        this.userCar = this.tokenService.getUserNameByToken();
       }
       this.isAdmin = this.tokenService.isAdmin();
       this.isDelivery = this.tokenService.isDelivery();
@@ -122,12 +124,11 @@ export class InicioComponent implements OnInit {
     if (this.tokenService.isLogger()) {
       this.tiendaService.getCarritoByUsername(this.tokenService.getUserNameByToken()).subscribe(data => {
         this.addCarrito = data;
-
         for (const d of (this.addCarrito as any)) {
-          let precio = d.precio as number * d.cantidad;
-          console.log(precio);
+          let precio = d.precio as number;
           this.totalCarrito += precio;
         }
+        this.totalCarrito = +this.totalCarrito.toPrecision(4);
       });
     }
   }
@@ -161,16 +162,31 @@ export class InicioComponent implements OnInit {
   }
 
   limpiarCarrito() {
-    this.tiendaService.deleteCarrito().subscribe(data => {
+    if (this.userCar === undefined || this.userCar === '') {
+      this.messageService.add({ key: 'myKey3', severity: 'info', summary: 'Información', detail: 'No se ha encontrado un usuario registrado en la tienda, inice sesión.' });
+      return;
+    }
+    if (this.totalCarrito === 0) {
+      this.messageService.add({ key: 'myKey3', severity: 'info', summary: 'Información', detail: 'No existen productos agregados al carrito.' });
+      return;
+    }
+    this.tiendaService.deleteCarrito(this.userCar).subscribe(data => {
       console.log(data)
       this.addCarrito = [];
       this.totalCarrito = 0;
+      window.location.replace('/tienda');
     })
   }
 
   actualizarCarrito() {
-    //[routerLink]="['tienda/pagar']"
-    //console.log(this.addCarrito);
+    if (this.userCar === undefined || this.userCar === '') {
+      this.messageService.add({ key: 'myKey3', severity: 'info', summary: 'Información', detail: 'No se ha encontrado un usuario registrado en la tienda, inice sesión.' });
+      return;
+    }
+    if (this.totalCarrito === 0) {
+      this.messageService.add({ key: 'myKey3', severity: 'info', summary: 'Información', detail: 'No existen productos agregados al carrito.' });
+      return;
+    }
     this.addCarrito.map(x => {
       this.tiendaService.guardarCarrito(x).subscribe(data => {
         console.log(x);

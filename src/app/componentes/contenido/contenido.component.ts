@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
+import { CarritoDto } from 'src/app/modelos/carrito';
 import { ProductoDto } from 'src/app/modelos/productos';
 import { ProductoCategoriaService } from 'src/app/services/producto-categoria.service';
 import { PromocionesService } from 'src/app/services/promociones.service';
 import { TiendaService } from 'src/app/services/tienda.service';
+import { TokenService } from 'src/app/services/token.service';
 
 export interface Product {
   name?: string;
@@ -50,7 +53,12 @@ export class ContenidoComponent implements OnInit {
     }
   ];
 
-  constructor(private productService: ProductoCategoriaService, private tiendaService: TiendaService) {
+  addCar: CarritoDto = {};
+
+  constructor(private productService: ProductoCategoriaService,
+    private tiendaService: TiendaService,
+    private tokenService: TokenService,
+    private messageService: MessageService,) {
 
   }
 
@@ -103,4 +111,26 @@ export class ContenidoComponent implements OnInit {
       }
     });
   }
+
+  addToCar(producto: any) {
+    if (this.tokenService.isLogger()) {
+      this.addCar.usuario = this.tokenService.getUserNameByToken();
+      this.addCar.idProducto = producto.id
+      this.addCar.nombreProducto = producto.name
+      this.addCar.precio = producto.price
+      this.addCar.cantidad = 1
+      this.addCar.fecha = ''
+      this.addCar.estado = 'ABIERTO'
+      console.log(this.addCar);
+      this.tiendaService.guardarCarrito(this.addCar).subscribe(data => {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Producto agregado al carrito.' });
+        this.addCar = {};
+      });
+    } else {
+      this.messageService.add({ severity: 'info', summary: 'Información', detail: 'Inicie sesión para agregar los productos al carrito.' });
+    }
+
+
+  }
+
 }

@@ -59,6 +59,10 @@ export class PromocionesComponent implements OnInit {
     }
     this.promocion.descuento = +this.descuento;
     this.promocionService.guardarPromocion(this.promocion).subscribe(data => {
+      if (data === null) {
+        this.messageService.add({ severity: 'info', summary: 'Información', detail: 'El producto ya tiene una promoción registrada.' });
+        return;
+      }
       this.messageService.add({ severity: 'success', summary: 'Sucess', detail: 'Promocion registrada.' });
       this.promocion = {};
       this.productoIdSelected = '';
@@ -103,6 +107,7 @@ export class PromocionesComponent implements OnInit {
   }
 
   onRowSelectProductDescuento(event: any) {
+    console.log(event.data);
     this.promocionUpdate = event.data;
     this.productoIdUpdateSelected = event.data.id;
     this.descuentoUpdate = event.data.descuento;
