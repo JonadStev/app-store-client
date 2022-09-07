@@ -107,6 +107,7 @@ export class ContenidoComponent implements OnInit {
           id: d.id,
           name: d.nombre,
           price: d.precio,
+          desc: d.descripcion,
           inventoryStatus: 'En Stock',
           previewImageSrc: 'data:image/jpg;base64,' + d.picByte
         });

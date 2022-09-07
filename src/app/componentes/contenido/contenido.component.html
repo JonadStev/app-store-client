@@ -1,13 +1,13 @@
-<div class="row">
+<div class="row mt-5">
     <div class="col-lg-12 col-md-12 col-sm-12">
-        <p-galleria [value]="images" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%','height': '25%'}" [numVisible]="4" [circular]="true"
-                [autoPlay]="true" [transitionInterval]="4000"> 
+        <p-galleria [value]="images" [responsiveOptions]="responsiveOptions" [containerStyle]="{'width': '100%','height': '25%'}" [numVisible]="8" [circular]="true"
+                [autoPlay]="true" [transitionInterval]="4000" [showThumbnails]="false" [showIndicators]="true" [changeItemOnIndicatorHover]="true" [showIndicatorsOnItem]="true"> 
                 <ng-template pTemplate="item" let-item>
                     <img [src]="item.previewImageSrc" style="width: 100%; height:550px; display: block;" />
                 </ng-template>
                 <ng-template pTemplate="thumbnail" let-item>
                     <div class="grid grid-nogutter justify-content-center">
-                        <img [src]="item.thumbnailImageSrc" style="display: block; width: 25%; height: 25%;" />
+                        <img [src]="item.thumbnailImageSrc" style="display: block;" />
                     </div>
                 </ng-template>
         </p-galleria>
@@ -19,7 +19,7 @@
             <p-card>
                 <p-carousel [value]="productosMasVendidos" styleClass="custom-carousel" [numVisible]="3" [numScroll]="1" [circular]="false" [autoplayInterval]="3000">
                     <ng-template pTemplate="header">
-                        <h1>Productos más vendidos</h1>
+                        <h3 style="text-align: center;">PRODUCTOS DESTACADOS</h3>
                     </ng-template>
                     <ng-template let-product pTemplate="item">
                         <div class="product-item">
@@ -44,25 +44,26 @@
     </div>
 </div>
 
-<div style="background-color: #fbc02d;">
+<div style="background-color: #f2a821;">
     <div class="container mt-4">
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12" style="text-align: center; margin-top: 12em;">
+            <div class="col-lg-4 col-md-6 col-sm-12" style="text-align: center; margin-top: 8em; color: #fffff2;">
                 <h1>Encuentra nuestras mejores ofertas para ti.</h1>
                 <br>
                 <p><em><h5>PRODUCTOS AL DESCUENTO CON BAJOS PRECIO!!! </h5></em>Encuentra tus productos favoritos con las ofertas que más te gustan, grandes descuentos y todo por tiempo limitado o hasta agotar stock.</p>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12" style="display: flex; justify-content: center; align-items: center;">
-                <p-carousel [value]="productosPromociones" orientation="vertical" [style]="{'max-width':'400px', 'margin-top':'2em' }" verticalViewPortHeight="452px" [numVisible]="1" [numScroll]="1">
+            <div class="col-lg-8 col-md-6 col-sm-12" style="justify-content: center; align-items: center;">
+                <p-carousel [value]="productosPromociones" orientation="vertical" [style]="{'max-width':'750px', 'margin-top':'2em' }" verticalViewPortHeight="550px" [numVisible]="1" [numScroll]="1">
                     <ng-template let-product pTemplate="item">
                         <div class="product-item">
                             <div class="product-item-content" style="background-color: #ffff;">
                                 <div class="mb-3">
-                                    <img [src]="product.previewImageSrc" [alt]="product.name" class="product-image" style="width: 130px; height: 130px;" />
+                                    <img [src]="product.previewImageSrc" [alt]="product.name" class="product-image" style="width: 280px; height: 215px;" />
                                 </div>
                                 <div>
                                     <h4 class="mb-1">{{product.name}}</h4>
                                     <h6 class="mt-0 mb-3">${{product.price}}</h6>
+                                    <p>{{product.desc}}</p>
                                     <span [class]="'product-badge status-'+product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
                                     <div class="car-buttons mt-5">
                                         <p-button type="button" styleClass="p-button p-button-rounded mr-2" icon="pi pi-shopping-cart" (click)="addToCar(product)"></p-button>
@@ -87,6 +88,9 @@
                     <h1>¡Aquí me quedo!</h1>
                     <p class="fst-italic text-muted">Tu tienda online disponible las 24 horas del día, los 7 días de la semana y los 365 día del año. No te pierdas ningua promoción y compra siempre al mejor precio del mercado.</p>
                 </div>
+                <div class="col-lg-6">
+                    <p-image src="assets/img/carrito.jpg" alt="Image" width="100%" height="350"></p-image>
+                </div>
             </div>
         </div>
     </section>
@@ -98,12 +102,12 @@
             <div class="row gy-4 gx-5">
                 <div class="col-lg-4 col-md-6">
                     <h5 class="h1 text-white">Minimarket "Aquí me quedo"</h5>
-                    <p class="small text-muted">"Aquí me quedo" es un negocio de compra venta de productos, estamos en el noroeste de la ciudad de guayaquil.</p>
-                    <p class="small text-muted mb-0">&copy; Copyrights. Todos los derechos reservados. <a class="text-primary" href="#">aquimequedo.com.ec</a></p>
+                    <p class="small text-white">"Aquí me quedo" es un negocio de compra venta de productos, estamos en el noroeste de la ciudad de guayaquil.</p>
+                    <p class="small text-white mb-0">&copy; Copyrights. Todos los derechos reservados. Aquí me quedo</p>
                 </div>
                 <div class="col-lg-2 col-md-6">
                     <h5 class="text-white mb-3">Enlaces rapidos</h5>
-                    <ul class="list-unstyled text-muted">
+                    <ul class="list-unstyled text-white">
                         <li><a href="#">Inicio</a></li>
                         <li><a href="#">Nosotros</a></li>
                         <li><a href="#">Contactos</a></li>
@@ -112,7 +116,7 @@
                 </div>
                 <div class="col-lg-2 col-md-6">
                     <h5 class="text-white mb-3">Enlaces rapidos</h5>
-                    <ul class="list-unstyled text-muted">
+                    <ul class="list-unstyled text-white">
                         <li><a href="#">Inicia sesión</a></li>
                         <li><a href="#">Registrate</a></li>
                         <li><a href="#">Tienda</a></li>
@@ -121,12 +125,12 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <h5 class="text-white mb-3">Boletín informativo</h5>
-                    <p class="small text-muted">Si deseas recibir notificaciones sobre nuestros productos, dejamos tu correo electrónico y nosotros nos encarmos del resto.</p>
+                    <p class="small text-white">Si deseas recibir notificaciones sobre nuestros productos, dejamos tu correo electrónico y nosotros nos encarmos del resto.</p>
                     <form action="#">
                         <div class="input-group mb-3">
                             <div class="p-inputgroup">
                                 <input type="text" pInputText placeholder="Correo" [(ngModel)] = "correoNotify" [ngModelOptions]="{standalone: true}">   
-                                <button type="button" pButton pRipple icon="pi pi-check-circle" styleClass="p-button-warn" (click)="notificaciones()"></button>      
+                                <button style="background-color: black;" type="button" pButton pRipple icon="pi pi-check-circle" styleClass="p-button-warn" (click)="notificaciones()"></button>      
                             </div>
                         </div>
                     </form>

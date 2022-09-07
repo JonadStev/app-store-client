@@ -1,5 +1,5 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-light navegacion">
-  <a class="navbar-brand" href="#" routerLink=""><p-image src="assets/img/logo.png" alt="Image" width="250"></p-image></a>
+  <a class="navbar-brand" href="#" routerLink=""><p-image src="assets/img/logo3.png" alt="Image" width="250" height="80"></p-image></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -56,18 +56,18 @@
             <p style="color: #ffff;">{{usuarioLogeado}}</p>
           </div>
           <div class="field col-2 md:col-2">
-            <button pButton pRipple type="button" icon="pi pi-power-off" class="p-button-rounded p-button-danger" (click)="logOut()"></button>
+            <button style="background-color: black;" pButton pRipple type="button" icon="pi pi-power-off" class="p-button-rounded p-button-danger" (click)="logOut()"></button>
           </div>
         </ng-template>
         <div class="field col-3 md:col-3">
-          <button pButton pRipple type="button" icon="pi pi-shopping-cart" class="p-button-rounded p-button-warning" (click)="abrirCarrito()"></button>
+          <button style="background-color: #ffff;" pButton pRipple type="button" icon="pi pi-shopping-cart" class="p-button-rounded p-button-warning" (click)="abrirCarrito()"></button>
         </div>
         <ng-template [ngIf] = "!isLogged">
           <div class="field col-3 md:col-3">
-            <button pButton pRipple type="button" icon="pi pi-key" class="p-button-rounded p-button-warning" (click)="displayLogin = true"></button>
+            <button style="background-color: #ffff;" pButton pRipple type="button" icon="pi pi-key" class="p-button-rounded p-button-warning" (click)="displayLogin = true"></button>
           </div>
           <div class="field col-3 md:col-3">
-            <button pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-warning" (click)="displayRegister = true"></button>
+            <button style="background-color: #ffff;" pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-warning" (click)="displayRegister = true"></button>
           </div>
         </ng-template>        
       </form>
