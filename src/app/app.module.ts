@@ -27,6 +27,7 @@ import { DataViewModule } from 'primeng/dataview';
 import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { CalendarModule } from 'primeng/calendar';
+import { ChartModule } from 'primeng/chart';
 import { TiendaComponent } from './componentes/tienda/tienda.component';
 import { interceptorProvider } from './interceptors/prod-interceptor.service';
 import { ProductoCategoriaComponent } from './componentes/administrador/producto-categoria/producto-categoria.component';
@@ -37,6 +38,7 @@ import { RepartidorComponent } from './componentes/repartidor/repartidor.compone
 import { OrdenDetalleComponent } from './componentes/orden-detalle/orden-detalle.component';
 import { ReportesComponent } from './componentes/reportes/reportes.component';
 import { PromocionesComponent } from './componentes/promociones/promociones.component';
+import { PasswordResetComponent } from './componentes/password-reset/password-reset.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import { PromocionesComponent } from './componentes/promociones/promociones.comp
     OrdenDetalleComponent,
     ReportesComponent,
     PromocionesComponent,
+    PasswordResetComponent,
   ],
   imports: [
     FormsModule,
@@ -77,7 +80,8 @@ import { PromocionesComponent } from './componentes/promociones/promociones.comp
     DataViewModule,
     MessagesModule,
     MessageModule,
-    CalendarModule
+    CalendarModule,
+    ChartModule
   ],
   providers: [interceptorProvider, MessageService],
   bootstrap: [AppComponent]

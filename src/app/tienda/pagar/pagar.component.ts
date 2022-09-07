@@ -107,6 +107,16 @@ export class PagarComponent implements OnInit {
   }
 
   pagoCredito() {
+    if (
+      this.nombreTarjeta === null || this.nombreTarjeta === undefined || this.nombreTarjeta.value === '' || this.nombreTarjeta.value === null ||
+      this.numeroTarjeta === null || this.numeroTarjeta === undefined || this.numeroTarjeta.value === '' || this.numeroTarjeta.value === null ||
+      this.fechaTarjeta === null || this.fechaTarjeta === undefined || this.fechaTarjeta.value === '' || this.fechaTarjeta.value === null ||
+      this.codigoTarjeta === null || this.codigoTarjeta === undefined || this.codigoTarjeta.value === '' || this.codigoTarjeta.value === null ||
+      this.direccionCredito === null || this.direccionCredito === undefined || this.direccionCredito.value === '' || this.direccionCredito.value === null
+    ) {
+      this.messageService.add({ severity: 'info', summary: 'Información', detail: 'Debe llenar todos los campos del formulario de pago.' });
+      return;
+    }
     this.llenarOrden();
     if (this.strCarritoSize === '0' || this.strCarritoSize === '') {
       this.messageService.add({ severity: 'info', summary: 'Información', detail: 'No se han encontrado productos en el carrito.' });
@@ -123,6 +133,10 @@ export class PagarComponent implements OnInit {
   }
 
   pagoEfectivo() {
+    if (this.direccionEfectivo === null || this.direccionEfectivo === '' || this.direccionEfectivo === undefined) {
+      this.messageService.add({ severity: 'info', summary: 'Información', detail: 'Debe llenar todos los campos del formulario de pago.' });
+      return;
+    }
     this.llenarOrden();
     if (this.strCarritoSize === '0' || this.strCarritoSize === '') {
       this.messageService.add({ severity: 'info', summary: 'Información', detail: 'No se han encontrado productos en el carrito.' });

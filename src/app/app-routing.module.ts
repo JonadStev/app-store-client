@@ -7,6 +7,7 @@ import { ContenidoComponent } from './componentes/contenido/contenido.component'
 import { InicioComponent } from './componentes/inicio/inicio.component';
 import { NosotrosComponent } from './componentes/nosotros/nosotros.component';
 import { OrdenDetalleComponent } from './componentes/orden-detalle/orden-detalle.component';
+import { PasswordResetComponent } from './componentes/password-reset/password-reset.component';
 import { PromocionesComponent } from './componentes/promociones/promociones.component';
 import { RepartidorComponent } from './componentes/repartidor/repartidor.component';
 import { ReportesComponent } from './componentes/reportes/reportes.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'nosotros', component: NosotrosComponent },
   { path: 'contacto', component: ContactoComponent },
   { path: 'tienda', component: TiendaComponent },
+  { path: 'password', component: PasswordResetComponent },
   { path: 'repartidor/ordenes', component: RepartidorComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'delivery'] } },
   { path: 'repartidor/ordenes/orden/:id', component: OrdenDetalleComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'delivery'] } },
   { path: 'tienda/pagar', component: PagarComponent, canActivate: [ProdGuardService], data: { expectedRol: ['admin', 'user'] } },

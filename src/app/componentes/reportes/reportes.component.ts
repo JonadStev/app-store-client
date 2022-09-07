@@ -23,10 +23,74 @@ export class ReportesComponent implements OnInit {
   fechaDesde: Date;
   fechaHasta: Date;
 
+  basicData: any;
+  basicOptions: any;
+  dataAnioAnterior: any = [];
+  dataAnioActual: any = [];
+
   constructor(private reporteVentasService: ReportesService, private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.getReporteVentas();
+    this.llenarGrafica();
+
+  }
+
+  llenarGrafica() {
+    var today = new Date();
+    let anioActual = today.getFullYear();
+    let anioAnterior = anioActual - 1;
+    this.reporteVentasService.getReporteVentasComparativo().subscribe(data => {
+      data.map(x => {
+        if (x.anio === anioAnterior)
+          this.dataAnioAnterior = x.totalVentas;
+        else if ((x.anio === anioActual))
+          this.dataAnioActual = x.totalVentas;
+      });
+      this.basicData = {
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        datasets: [
+          {
+            label: 'Año ' + anioAnterior,
+            backgroundColor: '#42A5F5',
+            data: this.dataAnioAnterior
+          },
+          {
+            label: 'Año ' + anioActual,
+            backgroundColor: '#FFA726',
+            data: this.dataAnioActual
+          }
+        ]
+      };
+      this.basicOptions = {
+        plugins: {
+          legend: {
+            labels: {
+              color: '#191919'
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: {
+              color: '#191919'
+            },
+            grid: {
+              color: 'rgba(255,255,255,0.2)'
+            }
+          },
+          y: {
+            ticks: {
+              color: '#191919'
+            },
+            grid: {
+              color: 'rgba(255,255,255,0.2)'
+            }
+          }
+        }
+      };
+    });
+
   }
 
   getReporteVentas() {

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ReporteVentasComparativoDto } from '../modelos/comparativo';
 import { ReporteVentasDto } from '../modelos/reporteVentas';
 
 @Injectable({
@@ -24,6 +25,10 @@ export class ReportesService {
 
   public getReporteOrdenCompra(idOrden: string): Observable<ReporteVentasDto[]> {
     return this.http.get<ReporteVentasDto[]>(this.tiendaUrl + 'reporteOrdenCompra/' + idOrden);
+  }
+
+  public getReporteVentasComparativo(): Observable<ReporteVentasComparativoDto[]> {
+    return this.http.get<ReporteVentasComparativoDto[]>(this.adminUrl + 'reporteComparativo');
   }
 
 }
