@@ -60,6 +60,8 @@ export class ProductoCategoriaComponent implements OnInit {
   btnDisableBanner: boolean = false;
   idEliminarBanner: string;
 
+  isDeleteBanner: boolean = false;
+
   constructor(public productoCategoriaService: ProductoCategoriaService,
     private messageService: MessageService,
     private proveedorSerive: ProveedorService) { }
@@ -118,7 +120,9 @@ export class ProductoCategoriaComponent implements OnInit {
 
   llenarProveedores() {
     this.proveedorSerive.getProveedores().subscribe(data => {
-      this.proveedores = data;
+      this.proveedores = data.filter(x => {
+        return x.estado === 'ACTIVO';
+      });
     });
   }
 
@@ -208,6 +212,8 @@ export class ProductoCategoriaComponent implements OnInit {
   }
 
   guardarBanner() {
+    if (this.isDeleteBanner)
+      return;
     if (
       this.nombreBanner.value === '' || this.nombreBanner.value === undefined || this.nombreBanner === null ||
       this.retrievedBannerImage === '' || this.retrievedBannerImage === undefined || this.retrievedBannerImage === null
@@ -331,12 +337,14 @@ export class ProductoCategoriaComponent implements OnInit {
   }
 
   deleteBanner() {
+    this.isDeleteBanner = true;
     this.productoCategoriaService.deleteBanner(this.idEliminarBanner).subscribe(data => {
       console.log(data);
       this.btnDisableBanner = false;
       this.limpiarFomularioBanner();
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'El banner ha sido eliminado con éxito.' });
       this.llenarTablaBanners();
+      this.isDeleteBanner = false;
     })
   }
 

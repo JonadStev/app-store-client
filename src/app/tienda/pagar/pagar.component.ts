@@ -93,6 +93,7 @@ export class PagarComponent implements OnInit {
           this.totalCarrito += precio;
           d.fecha = '';
         }
+        this.totalCarrito = +this.totalCarrito.toPrecision(4);
       });
     }
   }
@@ -167,12 +168,13 @@ export class PagarComponent implements OnInit {
     });
     doc.text('ORDEN DE COMPRA "AQUI ME QUEDO"', 10, 10);
     doc.text('No. orden de compra generada: ' + idOrden, 10, 20);
-    doc.text('TOTAL $: ' + totalCarrito, 10, 30);
-    doc.text('DETALLE DE PRODUCTOS', 10, 40);
+    doc.text('Forma de pago: ' + this.selectedPago, 10, 30);
+    doc.text('Total $: ' + totalCarrito, 10, 40);
+    doc.text('Detalle de productos: ', 10, 50);
     doc.autoTable({
       head: head,
       body: datos,
-      startY: 50,
+      startY: 60,
       didDrawCell: (data) => { },
     });
     doc.save('OrdenDeCompra.pdf');

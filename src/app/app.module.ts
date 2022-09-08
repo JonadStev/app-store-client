@@ -28,6 +28,7 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { CalendarModule } from 'primeng/calendar';
 import { ChartModule } from 'primeng/chart';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TiendaComponent } from './componentes/tienda/tienda.component';
 import { interceptorProvider } from './interceptors/prod-interceptor.service';
 import { ProductoCategoriaComponent } from './componentes/administrador/producto-categoria/producto-categoria.component';
@@ -81,7 +82,8 @@ import { PasswordResetComponent } from './componentes/password-reset/password-re
     MessagesModule,
     MessageModule,
     CalendarModule,
-    ChartModule
+    ChartModule,
+    InputTextareaModule
   ],
   providers: [interceptorProvider, MessageService],
   bootstrap: [AppComponent]

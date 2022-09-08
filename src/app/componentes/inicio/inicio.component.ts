@@ -52,6 +52,7 @@ export class InicioComponent implements OnInit {
       if (this.tokenService.getUserName() != "user") {
         this.usuarioLogeado = this.tokenService.getUserName() as string;
         this.userCar = this.tokenService.getUserNameByToken();
+        console.log(this.usuarioLogeado);
       }
       this.isAdmin = this.tokenService.isAdmin();
       this.isDelivery = this.tokenService.isDelivery();
@@ -141,6 +142,7 @@ export class InicioComponent implements OnInit {
         this.totalCarrito += precio;
       }
     }
+    this.totalCarrito = +this.totalCarrito.toPrecision(4);
   }
 
   downCantidad(carrito: CarritoDto) {
@@ -152,6 +154,7 @@ export class InicioComponent implements OnInit {
           this.totalCarrito -= precio;
         }
     }
+    this.totalCarrito = +this.totalCarrito.toPrecision(4);
   }
 
   eliminarItem(carrito: CarritoDto | undefined) {
