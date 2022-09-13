@@ -25,6 +25,8 @@ export class ReportesComponent implements OnInit {
 
   basicData: any;
   basicOptions: any;
+  dataAnio2019: any = [];
+  dataAnio2020: any = [];
   dataAnioAnterior: any = [];
   dataAnioActual: any = [];
 
@@ -40,9 +42,15 @@ export class ReportesComponent implements OnInit {
     var today = new Date();
     let anioActual = today.getFullYear();
     let anioAnterior = anioActual - 1;
+    let anio2020 = anioAnterior - 1;
+    let anio2019 = anio2020 - 1;
     this.reporteVentasService.getReporteVentasComparativo().subscribe(data => {
       data.map(x => {
-        if (x.anio === anioAnterior)
+        if ((x.anio === anio2019))
+          this.dataAnio2019 = x.totalVentas;
+        else if ((x.anio === anio2020))
+          this.dataAnio2020 = x.totalVentas;
+        else if (x.anio === anioAnterior)
           this.dataAnioAnterior = x.totalVentas;
         else if ((x.anio === anioActual))
           this.dataAnioActual = x.totalVentas;
@@ -50,6 +58,16 @@ export class ReportesComponent implements OnInit {
       this.basicData = {
         labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
         datasets: [
+          {
+            label: 'Año ' + anio2019,
+            backgroundColor: '#a52144',
+            data: this.dataAnio2019
+          },
+          {
+            label: 'Año ' + anio2020,
+            backgroundColor: '#67fb2c',
+            data: this.dataAnio2020
+          },
           {
             label: 'Año ' + anioAnterior,
             backgroundColor: '#42A5F5',
