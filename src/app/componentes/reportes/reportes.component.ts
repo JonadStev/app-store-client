@@ -135,7 +135,7 @@ export class ReportesComponent implements OnInit {
     const head = [['id', 'orden', 'cliente', 'producto', 'cantidad', 'precio', 'subtotal', 'iva', 'total', 'fecha']];
     const datos: any[] = [];
     this.reporteVentas.map(x => {
-      datos.push([x.id, x.orden, x.cliente, x.producto, x.cantidad, x.precio, x.subtotal, x.iva, x.total, x.fecha]);
+      datos.push([x.id, x.orden, x.cliente, x.producto, x.cantidad, x.precio, x.subtotal, x.iva, +x.total.toPrecision(4), x.fecha]);
     });
     doc.text('REPORTE DE VENTAS "AQUI ME QUEDO"', 10, 10);
     doc.text('Productos vendidos', 10, 20);

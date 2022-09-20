@@ -164,7 +164,7 @@ export class PagarComponent implements OnInit {
     const head = [['producto', 'cantidad', 'precio', 'subtotal', 'iva', 'total', 'fecha']];
     const datos: any[] = [];
     this.reporteOrdenCompra.map(x => {
-      datos.push([x.producto, x.cantidad, x.precio, x.subtotal, x.iva, x.total, x.fecha]);
+      datos.push([x.producto, x.cantidad, x.precio, x.subtotal, x.iva, +x.total.toPrecision(4), x.fecha]);
     });
     doc.text('ORDEN DE COMPRA "AQUI ME QUEDO"', 10, 10);
     doc.text('No. orden de compra generada: ' + idOrden, 10, 20);

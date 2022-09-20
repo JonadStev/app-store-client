@@ -7,6 +7,6 @@ export interface ReporteVentasDto {
     precio?: DoubleRange;
     subtotal?: DoubleRange;
     iva?: DoubleRange;
-    total?: DoubleRange;
+    total: number;
     fecha?: string;
 }
