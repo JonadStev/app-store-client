@@ -114,7 +114,21 @@ export class ReportesComponent implements OnInit {
   getReporteVentas() {
     this.reporteVentas = [];
     this.reporteVentasService.getReporteVetnas().subscribe(data => {
-      this.reporteVentas = data;
+      //this.reporteVentas = data;
+      this.reporteVentas = data.map(x => {
+        return {
+          id: x.id,
+          orden: x.orden,
+          cliente: x.cliente,
+          producto: x.producto,
+          cantidad: x.cantidad,
+          precio: x.precio,
+          subtotal: x.subtotal,
+          iva: x.iva,
+          total: +x.total.toPrecision(4),
+          fecha: x.fecha
+        }
+      });
     });
   }
 
